@@ -7,11 +7,11 @@
 		<groupId>com.mediscreen</groupId>
 		<artifactId>mediscreen</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
-		<relativePath /> <!-- lookup parent from repository -->
+		<relativePath>..</relativePath>
 	</parent>
 	
-	<artifactId>mpatientdata</artifactId>
-	<name>mpatientdata</name>
+	<artifactId>mpatient</artifactId>
+	<name>mpatient</name>
 	<description>Patient data microservice</description>
 
 	<dependencies>
