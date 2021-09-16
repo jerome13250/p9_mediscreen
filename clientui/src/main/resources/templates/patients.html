@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Mediscreen</title>
+<meta charset="UTF-8" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" type="text/css"
+	href="webjars/bootstrap/4.0.0-2/css/bootstrap.min.css" />
+<link rel="stylesheet" href="/css/custom.css">
+<link rel="icon" type="image/png" href="/img/favicon.ico" />
+</head>
+<body>
+
+	<!-- Navigation -->
+	<div th:replace="fragments/general.html :: navigation"></div>
+
+	<div class="container">
+		<div class="row py-2">
+			<div class="col-6">
+				<h2>Patients listing</h2>
+			</div>
+			<div class="col-6 text-right">
+				<a href="#" class="btn btn-success btn-lg" role="button" th:href="@{/patientForm}">Create patient</a>
+			</div>
+		</div>
+
+		<table class="table">
+			<thead class="thead-light">
+				<tr>
+					<th class="text-left">First name</th>
+					<th class="text-left">Last name</th>
+					<th class="text-left">Date of birth</th>
+					<th class="text-left"></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="patient : ${patients}">
+					<td th:text="${patient.given}"></td>
+					<td th:text="${patient.family}"></td>
+					<td th:text="${patient.dob}"></td>
+					<td class="text-right">
+						<a href="#" class="btn btn-info" role="button" th:href="@{/patientForm(id=${patient.id})}">Update</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<!-- Footer -->
+	<div th:replace="fragments/general.html :: footer"></div>
+
+	<script type="text/javascript"
+		src="webjars/bootstrap/4.0.0-2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

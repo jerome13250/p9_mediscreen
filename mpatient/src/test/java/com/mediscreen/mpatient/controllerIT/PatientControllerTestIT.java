@@ -3,6 +3,7 @@ package com.mediscreen.mpatient.controllerIT;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -27,6 +28,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -68,7 +70,7 @@ class PatientControllerTestIT {
 
 	@Test
 	void GetAllPatients_shouldSucceed() throws Exception {
-		
+
 		//ACT+ASSERT
 		MvcResult result = mockMvc
 				.perform(get("/patient"))
@@ -80,10 +82,9 @@ class PatientControllerTestIT {
 		assertEquals(4, listPatientResult.size());
 	}
 
-	
 	@Test
 	void GetPatient_shouldSucceed() throws Exception {
-		
+
 		//ACT+ASSERT
 		MvcResult result = mockMvc
 				.perform(get("/patient/1"))
@@ -98,7 +99,7 @@ class PatientControllerTestIT {
 
 	@Test
 	void GetPatient_IsNotFoundExpected() throws Exception {
-		
+
 		//ACT+ASSERT
 		mockMvc.perform(get("/patient/999"))
 		.andExpect(status().isNotFound())
@@ -107,16 +108,13 @@ class PatientControllerTestIT {
 
 	@Test
 	void UpdatePatient_shouldSucceed() throws Exception {
-		
+		//ARRANGE
+		String jsonContent = objectMapper.writeValueAsString(patient2);
+
 		//ACT+ASSERT
 		MvcResult result = mockMvc.perform(
 				put("/patient/1")
-				.param("given", "mike")
-				.param("family", "smith")
-				.param("dob","2005-03-25")
-				.param("sex","M")
-				.param("address","Residence Palmas Miami")
-				.param("phone","555-666-777")
+				.contentType(MediaType.APPLICATION_JSON).content(jsonContent)
 				)
 				.andExpect(status().isOk())
 				.andReturn();
@@ -131,35 +129,30 @@ class PatientControllerTestIT {
 		assertEquals("Residence Palmas Miami",patientReturned.getAddress());
 		assertEquals("555-666-777",patientReturned.getPhone());
 	}
-	
+
 	@Test
 	void PutPatient_IsNotFoundExpected() throws Exception {
-		
+		//ARRANGE
+		String jsonContent = objectMapper.writeValueAsString(patient1);
+
 		//ACT+ASSERT
 		mockMvc.perform(put("/patient/999")
-				.param("given", "mike")
-				.param("family", "smith")
-				.param("dob","2005-03-25")
-				.param("sex","M")
-				.param("address","Residence Palmas Miami")
-				.param("phone","555-666-777")
+				.contentType(MediaType.APPLICATION_JSON).content(jsonContent)
 				)
 		.andExpect(status().isNotFound())
 		.andExpect(result -> assertTrue(result.getResolvedException() instanceof PatientNotFoundException));
 	}
-	
+
 	@Test
 	void CreatePatient_shouldSucceed() throws Exception {
+		//ARRANGE
+		patient2.setId(1);
+		String jsonContent = objectMapper.writeValueAsString(patient2);
 
 		//ACT+ASSERT
 		MvcResult result = mockMvc.perform(
 				post("/patient/add")
-				.param("given", "jason")
-				.param("family", "steel")
-				.param("dob","2005-03-25")
-				.param("sex","M")
-				.param("address","Residence Palmas Miami")
-				.param("phone","555-666-777")
+				.contentType(MediaType.APPLICATION_JSON).content(jsonContent)
 				)
 				.andExpect(status().isOk())
 				.andReturn();
@@ -167,25 +160,22 @@ class PatientControllerTestIT {
 		//check patient update:
 		Patient patientReturned = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<Patient>() {});
 		assertNotNull(patientReturned);
-		assertEquals("jason", patientReturned.getGiven());
-		assertEquals("steel", patientReturned.getFamily());
+		assertEquals("mike", patientReturned.getGiven());
+		assertEquals("smith", patientReturned.getFamily());
 		assertEquals(LocalDate.of(2005,3,25),patientReturned.getDob());
 		assertEquals('M',patientReturned.getSex());
 		assertEquals("Residence Palmas Miami",patientReturned.getAddress());
 		assertEquals("555-666-777",patientReturned.getPhone());
 	}
-	
+
 	@Test
 	void CreatePatient_AlreadyExistExpected() throws Exception {
+		patient1.setId(1);
+		String jsonContent = objectMapper.writeValueAsString(patient1);
 		
 		//ACT+ASSERT
 		mockMvc.perform(post("/patient/add")
-				.param("given", "mike")
-				.param("family", "smith")
-				.param("dob","2005-03-25")
-				.param("sex","M")
-				.param("address","Residence Palmas Miami")
-				.param("phone","555-666-777")
+				.contentType(MediaType.APPLICATION_JSON).content(jsonContent)
 				)
 		.andExpect(status().isConflict())
 		.andExpect(result -> assertTrue(result.getResolvedException() instanceof PatientAlreadyExistException));

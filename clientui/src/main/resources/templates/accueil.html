@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Mediscreen</title>
+<meta charset="UTF-8" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" type="text/css"
+	href="webjars/bootstrap/4.0.0-2/css/bootstrap.min.css" />
+<link rel="stylesheet" href="/css/custom.css">
+<link rel="icon" type="image/png" href="/img/favicon.ico" />
+
+</head>
+<body>
+
+
+	<!-- Navigation -->
+	<div th:replace="fragments/general.html :: navigation"></div>
+
+	
+	<div class="container">
+		<div class="row">
+			<div class="col-12 col-md-12 order-lg-2 col-lg-9 px-0">
+				<img src="/img/mediscreen-people.png" class="img-fluid"
+					alt="PayMyBuddy logo">
+			</div>
+			<div class="col-12 col-md-12 order-lg-1 col-lg-3 px-1 pt-2 text-center">
+				<p>
+				<h2 class="text-primary text-bold">We care.</h2><br>
+				Mediscreen specializes in detecting risk factors for disease.
+				Our screenings using predictive analysis of patient populations at
+				an affordable cost.
+				</p>
+				<ul>
+				<li>Are you a small or rural clinic or practice?</li>
+				<li>Do you nedd screenings for heart disease or hypertension precursors?</li>
+				</ul>
+				<h4 class="text-primary text-bold">We have a solution for you.</h4>
+			</div>
+			
+		</div>
+
+	</div>
+
+	<!-- Footer -->
+	<div th:replace="fragments/general.html :: footer"></div>
+
+	<script type="text/javascript"
+		src="webjars/bootstrap/4.0.0-2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

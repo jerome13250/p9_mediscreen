@@ -23,6 +23,7 @@ import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
@@ -121,16 +122,12 @@ class PatientControllerTest {
 		when(patientRepository.findById(1)).thenReturn(Optional.of(patient1));
 		patient2.setId(1);
 		when(patientRepository.save(any(Patient.class))).thenReturn(patient2);
-
+		String jsonContent = objectMapper.writeValueAsString(patient2);
+		
 		//ACT+ASSERT
 		MvcResult result = mockMvc.perform(
 				put("/patient/1")
-				.param("given", "mike")
-				.param("family", "smith")
-				.param("dob","2005-03-25")
-				.param("sex","M")
-				.param("address","Residence Palmas Miami")
-				.param("phone","555-666-777")
+				.contentType(MediaType.APPLICATION_JSON).content(jsonContent)
 				)
 				.andExpect(status().isOk())
 				.andReturn();
@@ -161,15 +158,11 @@ class PatientControllerTest {
 	void PutPatient_IsNotFoundExpected() throws Exception {
 		//ARRANGE
 		when(patientRepository.findById(1)).thenReturn(Optional.empty());
-
+		String jsonContent = objectMapper.writeValueAsString(patient1);
+		
 		//ACT+ASSERT
 		mockMvc.perform(put("/patient/1")
-				.param("given", "mike")
-				.param("family", "smith")
-				.param("dob","2005-03-25")
-				.param("sex","M")
-				.param("address","Residence Palmas Miami")
-				.param("phone","555-666-777")
+				.contentType(MediaType.APPLICATION_JSON).content(jsonContent)
 				)
 		.andExpect(status().isNotFound())
 		.andExpect(result -> assertTrue(result.getResolvedException() instanceof PatientNotFoundException));
@@ -181,16 +174,13 @@ class PatientControllerTest {
 		when(patientRepository.existsByFirstNameLastname("mike", "smith")).thenReturn(Boolean.FALSE);
 		patient2.setId(1);
 		when(patientRepository.save(any(Patient.class))).thenReturn(patient2);
-
+		String jsonContent = objectMapper.writeValueAsString(patient2);
+		
 		//ACT+ASSERT
-		MvcResult result = mockMvc.perform(
+		MvcResult result = 
+				mockMvc.perform(
 				post("/patient/add")
-				.param("given", "mike")
-				.param("family", "smith")
-				.param("dob","2005-03-25")
-				.param("sex","M")
-				.param("address","Residence Palmas Miami")
-				.param("phone","555-666-777")
+				.contentType(MediaType.APPLICATION_JSON).content(jsonContent)
 				)
 				.andExpect(status().isOk())
 				.andReturn();
@@ -218,15 +208,11 @@ class PatientControllerTest {
 	void CreatePatient_AlreadyExistExpected() throws Exception {
 		//ARRANGE
 		when(patientRepository.existsByFirstNameLastname("mike", "smith")).thenReturn(Boolean.TRUE);
-
+		String jsonContent = objectMapper.writeValueAsString(patient2);
+		
 		//ACT+ASSERT
 		mockMvc.perform(post("/patient/add")
-				.param("given", "mike")
-				.param("family", "smith")
-				.param("dob","2005-03-25")
-				.param("sex","M")
-				.param("address","Residence Palmas Miami")
-				.param("phone","555-666-777")
+				.contentType(MediaType.APPLICATION_JSON).content(jsonContent)
 				)
 		.andExpect(status().isConflict())
 		.andExpect(result -> assertTrue(result.getResolvedException() instanceof PatientAlreadyExistException));
