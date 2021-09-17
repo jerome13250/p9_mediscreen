@@ -68,7 +68,7 @@ public class Patient {
 	
 	@ApiModelProperty(
 			value = "Patient's postal address",
-			example = "M",
+			example = "1st street New-York",
 			required = false)
 	String address;
 	
