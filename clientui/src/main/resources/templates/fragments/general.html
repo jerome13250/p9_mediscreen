@@ -19,19 +19,13 @@
 						<ul class="navbar-nav">
 							<li
 								th:classappend="${#httpServletRequest.getRequestURI() == '/' ? 'active':''}"
-								class="nav-item"><a class="nav-link" href="/">Home</a></li>
+								class="nav-item"><a class="nav-link" href="/">Home</a>
+							</li>
 							<li
 								th:classappend="${#httpServletRequest.getRequestURI() == '/patients' ? 'active':''}"
 								class="nav-item"><a class="nav-link"
 								href="/patients">Patients</a>
-							<li
-								th:classappend="${#httpServletRequest.getRequestURI() == '/connection' ? 'active':''}"
-								class="nav-item"><a class="nav-link" href="/connection">Your
-									Buddies</a>
-							<li
-								th:classappend="${#httpServletRequest.getRequestURI() == '/usertransaction' ? 'active':''}"
-								class="nav-item"><a class="nav-link"
-								href="/usertransaction">Buddy Transfert</a>
+							</li>
 						</ul>
 					</div>
 				</nav>

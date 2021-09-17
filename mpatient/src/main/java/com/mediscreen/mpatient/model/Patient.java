@@ -8,7 +8,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,18 +26,56 @@ import lombok.Setter;
 @Table(name = "patient")
 public class Patient {
 
+	@ApiModelProperty(
+			  value = "id of patient",
+			  example = "1")
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
+	@ApiModelProperty(
+			  value = "First name of patient",
+			  example = "John",
+			  required = true)
 	@Column(name="firstname")
+	@NotBlank
 	String given;
+	
+	@ApiModelProperty(
+			  value = "Last name of patient",
+			  example = "Doe",
+			  required = true)
 	@Column(name="lastname")
+	@NotBlank
 	String family;
+	
+	@ApiModelProperty(
+			  value = "Patient's date of birth",
+			  example = "2021-09-17",
+			  required = true)
 	@Column(name="birthdate")
+	@NotNull
 	LocalDate dob;
-	char sex;
+	
+	@ApiModelProperty(
+			value = "Patient's gender",
+			example = "M",
+			allowableValues= "F, M",
+			required = true)
+	@NotBlank
+	@Pattern(regexp = "[FM]")
+	String sex;
+	
+	@ApiModelProperty(
+			value = "Patient's postal address",
+			example = "M",
+			required = false)
 	String address;
+	
+	@ApiModelProperty(
+			value = "Patient's phone number",
+			example = "111-222-333",
+			required = false)
 	String phone;
 
 	/**
@@ -45,7 +87,7 @@ public class Patient {
 	 * @param address postal address
 	 * @param phone number
 	 */
-	public Patient(String given, String family, LocalDate dob, char sex, String address, String phone) {
+	public Patient(String given, String family, LocalDate dob, String sex, String address, String phone) {
 		super();
 		this.given = given;
 		this.family = family;

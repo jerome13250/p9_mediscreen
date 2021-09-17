@@ -3,6 +3,8 @@ package com.mediscreen.mpatient.controller;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,13 +12,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mediscreen.mpatient.exception.PatientAlreadyExistException;
 import com.mediscreen.mpatient.exception.PatientNotFoundException;
 import com.mediscreen.mpatient.model.Patient;
 import com.mediscreen.mpatient.repository.PatientRepository;
+
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 
 @RestController
 public class PatientController {
@@ -29,6 +33,7 @@ public class PatientController {
 	 * @return all patients
 	 * @throws PatientNotFoundException if database is empty
 	 */
+	@ApiOperation(value = "This endpoint returns all patients.")
     @GetMapping(value = "/patient")
     public List<Patient> GetAllPatients() throws PatientNotFoundException{
 
@@ -43,8 +48,14 @@ public class PatientController {
      * @return patient data
      * @throws PatientNotFoundException if patient id does not exist in database
      */
+	@ApiOperation(value = "This endpoint returns a patient from its id.")
     @GetMapping( value = "/patient/{id}")
-    public Optional<Patient> getPatient(@PathVariable int id) throws PatientNotFoundException {
+    public Optional<Patient> getPatient(
+    		@ApiParam(
+					value = "Patient id",
+					example = "1")
+    		@PathVariable int id) 
+    				throws PatientNotFoundException {
 
         Optional<Patient> patient = patientRepository.findById(id);
         if(!patient.isPresent())  throw new PatientNotFoundException("Le patient correspondant à l'id " + id + " n'existe pas");
@@ -58,8 +69,18 @@ public class PatientController {
      * @return updated patient
      * @throws PatientNotFoundException if patient id does not exist in database
      */
+	@ApiOperation(value = "This endpoint updates a patient.")
     @PutMapping( value = "/patient/{id}")
-    public Patient updatePatient(@RequestBody Patient newPatient, @PathVariable Integer id) throws PatientNotFoundException {
+    public Patient updatePatient(
+    		@ApiParam(
+					value = "Patient object in json format"
+					)
+    		@Valid @RequestBody Patient newPatient,
+    		@ApiParam(
+					value = "Patient id",
+					example = "1")
+    		@PathVariable Integer id)
+    				throws PatientNotFoundException {
 
         Optional<Patient> oldPatient = patientRepository.findById(id);
         if(!oldPatient.isPresent())  throw new PatientNotFoundException("Modification impossible, le patient correspondant à l'id " + id + " n'existe pas");
@@ -72,8 +93,14 @@ public class PatientController {
      * @return created patient with id in database.
      * @throws PatientAlreadyExistException if patient already exists in database, based on firstname+lastname
      */
+	@ApiOperation(value = "This endpoint creates a patient.")
     @PostMapping( value = "/patient/add")
-    public Patient createPatient(@RequestBody Patient newPatient) throws PatientAlreadyExistException {
+    public Patient createPatient(
+    		@ApiParam(
+					value = "Patient object in json format"
+					)
+    		@Valid @RequestBody Patient newPatient) 
+    				throws PatientAlreadyExistException {
 
     	Boolean existPatient = patientRepository.existsByFirstNameLastname(newPatient.getGiven(), newPatient.getFamily());
         if(existPatient.equals(Boolean.TRUE))  throw new PatientAlreadyExistException("Ajout impossible, le patient " + newPatient.getGiven() + " " + newPatient.getFamily() + " existe deja");
@@ -87,20 +114,34 @@ public class PatientController {
      * @return updated patient
      * @throws PatientNotFoundException if patient id does not exist in database
      */
-    @DeleteMapping( value = "/patient/delete/{id}")
-    public void deletePatient(@PathVariable Integer id) throws PatientNotFoundException {
+	/*
+	@ApiOperation(value = "This endpoint deletes a patient.")
+	@DeleteMapping( value = "/patient/delete/{id}")
+	public void deletePatient(
+			@ApiParam(
+					value = "Patient id",
+					example = "1")
+			@PathVariable Integer id
+			) throws PatientNotFoundException {
 
-        Optional<Patient> oldPatient = patientRepository.findById(id);
-        if(!oldPatient.isPresent())  throw new PatientNotFoundException("Suppression impossible, le patient correspondant à l'id " + id + " n'existe pas");
-        patientRepository.deleteById(id);
-    }
+		Optional<Patient> oldPatient = patientRepository.findById(id);
+		if(!oldPatient.isPresent())  throw new PatientNotFoundException("Suppression impossible, le patient correspondant à l'id " + id + " n'existe pas");
+		patientRepository.deleteById(id);
+	}
+	*/
 	
     /**
      * endpoint that checks if a patient exists by firstname+lastname.
      * @return boolean true if patient exists.
      */
-    @PostMapping( value = "/patient/exist")
-    public Boolean existPatient(@RequestBody Patient newPatient) {
+	@ApiOperation(value = "This endpoint checks if a patient exist by firstname and lastname.")
+	@PostMapping( value = "/patient/exist")
+	public Boolean existPatient(
+			@ApiParam(
+					value = "Patient object in json format"
+					)
+			@Valid @RequestBody Patient newPatient
+			) {
 
     	Boolean existPatient = patientRepository.existsByFirstNameLastname(newPatient.getGiven(), newPatient.getFamily());
         

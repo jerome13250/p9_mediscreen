@@ -60,8 +60,8 @@ class PatientControllerTestIT {
 
 	@BeforeEach
 	void setup() {
-		patient1 = new Patient("john", "doe", LocalDate.of (1980,8,10),'M',"1st street New-York","111-222-333");
-		patient2 = new Patient("mike", "smith", LocalDate.of (2005,3,25),'M',"Residence Palmas Miami","555-666-777");
+		patient1 = new Patient("john", "doe", LocalDate.of (1980,8,10),"M","1st street New-York","111-222-333");
+		patient2 = new Patient("mike", "smith", LocalDate.of (2005,3,25),"M","Residence Palmas Miami","555-666-777");
 		listPatient = new ArrayList<>();
 		listPatient.add(patient1);
 		listPatient.add(patient2);
@@ -125,7 +125,7 @@ class PatientControllerTestIT {
 		assertEquals("mike", patientReturned.getGiven());
 		assertEquals("smith", patientReturned.getFamily());
 		assertEquals(LocalDate.of(2005,3,25),patientReturned.getDob());
-		assertEquals('M',patientReturned.getSex());
+		assertEquals("M",patientReturned.getSex());
 		assertEquals("Residence Palmas Miami",patientReturned.getAddress());
 		assertEquals("555-666-777",patientReturned.getPhone());
 	}
@@ -163,7 +163,7 @@ class PatientControllerTestIT {
 		assertEquals("mike", patientReturned.getGiven());
 		assertEquals("smith", patientReturned.getFamily());
 		assertEquals(LocalDate.of(2005,3,25),patientReturned.getDob());
-		assertEquals('M',patientReturned.getSex());
+		assertEquals("M",patientReturned.getSex());
 		assertEquals("Residence Palmas Miami",patientReturned.getAddress());
 		assertEquals("555-666-777",patientReturned.getPhone());
 	}
@@ -179,6 +179,26 @@ class PatientControllerTestIT {
 				)
 		.andExpect(status().isConflict())
 		.andExpect(result -> assertTrue(result.getResolvedException() instanceof PatientAlreadyExistException));
+	}
+	
+	@Test
+	void existPatient() throws Exception {
+		//ARRANGE
+		patient2.setId(1);
+		String jsonContent = objectMapper.writeValueAsString(patient2);
+		
+		//ACT+ASSERT
+		MvcResult result = 
+				mockMvc.perform(
+				post("/patient/exist")
+				.contentType(MediaType.APPLICATION_JSON).content(jsonContent)
+				)
+				.andExpect(status().isOk())
+				.andReturn();
+
+		//check patient update:
+		Boolean booleanResult = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<Boolean>() {});
+		assertEquals(Boolean.FALSE,booleanResult);
 	}
 
 }
