@@ -4,9 +4,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -76,18 +78,6 @@ class PatientControllerTest {
 	}
 
 	@Test
-	void GetAllPatients_IsNotFoundExpected() throws Exception {
-		//ARRANGE
-		when(patientRepository.findAll()).thenReturn(new ArrayList<>());
-
-		//ACT+ASSERT
-		mockMvc
-		.perform(get("/patient"))
-		.andExpect(status().isNotFound())
-		.andExpect(result -> assertTrue(result.getResolvedException() instanceof PatientNotFoundException));
-	}
-
-	@Test
 	void GetPatient_shouldSucceed() throws Exception {
 		//ARRANGE
 		when(patientRepository.findById(1)).thenReturn(Optional.of(patient1));
@@ -123,7 +113,7 @@ class PatientControllerTest {
 		patient2.setId(1);
 		when(patientRepository.save(any(Patient.class))).thenReturn(patient2);
 		String jsonContent = objectMapper.writeValueAsString(patient2);
-		
+
 		//ACT+ASSERT
 		MvcResult result = mockMvc.perform(
 				put("/patient/1")
@@ -143,7 +133,7 @@ class PatientControllerTest {
 		assertEquals("M",patientCaptured.getSex());
 		assertEquals("Residence Palmas Miami",patientCaptured.getAddress());
 		assertEquals("555-666-777",patientCaptured.getPhone());
-		
+
 		Patient patientReturned = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<Patient>() {});
 		assertNotNull(patientReturned);
 		assertEquals("mike", patientReturned.getGiven());
@@ -153,13 +143,13 @@ class PatientControllerTest {
 		assertEquals("Residence Palmas Miami",patientReturned.getAddress());
 		assertEquals("555-666-777",patientReturned.getPhone());
 	}
-	
+
 	@Test
 	void PutPatient_IsNotFoundExpected() throws Exception {
 		//ARRANGE
 		when(patientRepository.findById(1)).thenReturn(Optional.empty());
 		String jsonContent = objectMapper.writeValueAsString(patient1);
-		
+
 		//ACT+ASSERT
 		mockMvc.perform(put("/patient/1")
 				.contentType(MediaType.APPLICATION_JSON).content(jsonContent)
@@ -167,7 +157,7 @@ class PatientControllerTest {
 		.andExpect(status().isNotFound())
 		.andExpect(result -> assertTrue(result.getResolvedException() instanceof PatientNotFoundException));
 	}
-	
+
 	@Test
 	void CreatePatient_shouldSucceed() throws Exception {
 		//ARRANGE
@@ -175,13 +165,13 @@ class PatientControllerTest {
 		patient2.setId(1);
 		when(patientRepository.save(any(Patient.class))).thenReturn(patient2);
 		String jsonContent = objectMapper.writeValueAsString(patient2);
-		
+
 		//ACT+ASSERT
 		MvcResult result = 
 				mockMvc.perform(
-				post("/patient/add")
-				.contentType(MediaType.APPLICATION_JSON).content(jsonContent)
-				)
+						post("/patient/add")
+						.contentType(MediaType.APPLICATION_JSON).content(jsonContent)
+						)
 				.andExpect(status().isOk())
 				.andReturn();
 
@@ -189,27 +179,27 @@ class PatientControllerTest {
 		ArgumentCaptor<Patient> patientArgumentCaptor = ArgumentCaptor.forClass(Patient.class);
 		verify(patientRepository,times(1)).save(patientArgumentCaptor.capture());
 		Patient patientCaptured = patientArgumentCaptor.getValue();
-		
+
 		assertEquals("mike",patientCaptured.getGiven());
 		assertEquals("smith",patientCaptured.getFamily());
 		assertEquals(LocalDate.of(2005,3,25),patientCaptured.getDob());
 		assertEquals("M",patientCaptured.getSex());
 		assertEquals("Residence Palmas Miami",patientCaptured.getAddress());
 		assertEquals("555-666-777",patientCaptured.getPhone());
-		
+
 		Patient patientReturned = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<Patient>() {});
 		assertNotNull(patientReturned);
 		assertEquals(1,patientReturned.getId());
 		assertEquals("mike", patientReturned.getGiven());
 		assertEquals("smith", patientReturned.getFamily());
 	}
-	
+
 	@Test
 	void CreatePatient_AlreadyExistExpected() throws Exception {
 		//ARRANGE
 		when(patientRepository.existsByFirstNameLastname("mike", "smith")).thenReturn(Boolean.TRUE);
 		String jsonContent = objectMapper.writeValueAsString(patient2);
-		
+
 		//ACT+ASSERT
 		mockMvc.perform(post("/patient/add")
 				.contentType(MediaType.APPLICATION_JSON).content(jsonContent)
@@ -217,20 +207,46 @@ class PatientControllerTest {
 		.andExpect(status().isConflict())
 		.andExpect(result -> assertTrue(result.getResolvedException() instanceof PatientAlreadyExistException));
 	}
-	
+
 	@Test
-	void existPatient() throws Exception {
+	void DeletePatient_shouldSucceed() throws Exception {
+		//ARRANGE
+		when(patientRepository.existsById(1)).thenReturn(Boolean.TRUE);
+
+		//ACT+ASSERT
+		mockMvc.perform(delete("/patient/delete/1"));
+
+		//check patient update:
+		verify(patientRepository,times(1)).deleteById(1);
+	}
+
+	@Test
+	void DeletePatient_DoesntExistExpected() throws Exception {
+		//ARRANGE
+		when(patientRepository.existsById(1)).thenReturn(Boolean.FALSE);
+
+		//ACT+ASSERT
+		mockMvc.perform(delete("/patient/delete/1"))
+		.andExpect(status().isNotFound())
+		.andExpect(result -> assertTrue(result.getResolvedException() instanceof PatientNotFoundException));
+
+		//check patient update:
+		verify(patientRepository,never()).deleteById(1);
+	}
+
+	@Test
+	void existPatientByFirstNameLastname() throws Exception {
 		//ARRANGE
 		when(patientRepository.existsByFirstNameLastname("mike", "smith")).thenReturn(Boolean.FALSE);
 		patient2.setId(1);
 		String jsonContent = objectMapper.writeValueAsString(patient2);
-		
+
 		//ACT+ASSERT
 		MvcResult result = 
 				mockMvc.perform(
-				post("/patient/exist")
-				.contentType(MediaType.APPLICATION_JSON).content(jsonContent)
-				)
+						post("/patient/exist")
+						.contentType(MediaType.APPLICATION_JSON).content(jsonContent)
+						)
 				.andExpect(status().isOk())
 				.andReturn();
 

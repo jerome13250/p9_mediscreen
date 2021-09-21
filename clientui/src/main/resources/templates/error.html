@@ -6,7 +6,7 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="stylesheet" type="text/css"
-	href="webjars/bootstrap/4.0.0-2/css/bootstrap.min.css" />
+	href="/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css" />
 <link rel="stylesheet" href="/css/custom.css">
 <link rel="icon" type="image/png" href="/img/favicon.ico" />
 
@@ -16,12 +16,9 @@
 	<div th:replace="fragments/general.html :: navigation"></div>
 
 	<div class="container">
-		<div class="row h-100">			
-			<div class="col-3 my-auto">
-				<h1 th:text="'Error ' + ${status} +' !'">Error !</h1>
-			</div>
-			<div class="col-9 my-auto">
-				<h3>This is embarrassing!&#128532; Please contact our support! &#128591;</h3>
+		<div class="row h-100">
+			<div class="col-12 text-center">
+				<h2 class="text-danger" th:text="${errorMsg}">Error</h2>
 			</div>
 		</div>
 
@@ -30,9 +27,9 @@
 	<!-- Footer -->
 	<div th:replace="fragments/general.html :: footer"></div>
 
-	<script src="webjars/jquery/3.6.0/jquery.slim.min.js"></script>
+	<script src="/webjars/jquery/3.6.0/jquery.slim.min.js"></script>
 	<script type="text/javascript"
-		src="webjars/bootstrap/4.0.0-2/js/bootstrap.min.js"></script>
+		src="/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js"></script>
 
 </body>
 </html>

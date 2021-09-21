@@ -1,4 +1,4 @@
-package com.mediscreen.clientui.proxy;
+package com.mediscreen.clientui.proxy.feign;
 
 import java.util.List;
 
@@ -12,13 +12,16 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.mediscreen.clientui.beans.PatientBean;
+import com.mediscreen.clientui.proxy.MicroservicePatientsProxy;
 
-public interface MicroservicePatientsProxy {
+@FeignClient(name = "microservice-patients", url = "localhost:8081")
+public interface MicroservicePatientsProxyFeign extends MicroservicePatientsProxy {
 
 	/**
 	 * returns list of all patients in database
 	 * @return all patients
 	 */
+	@GetMapping(value = "/patient")
 	public List<PatientBean> getAllPatients();
 	
 	/**
@@ -26,30 +29,35 @@ public interface MicroservicePatientsProxy {
      * @param id the patient id
      * @return patient
      */
-    public PatientBean getPatient(int id);
+    @GetMapping( value = "/patient/{id}")
+    public PatientBean getPatient(@PathVariable int id);
 
     /**
      * updates patient with a specified id
      * @param id the patient id
      * @return updated patient
      */
-    public PatientBean updatePatient(PatientBean newPatient,Integer id);
+    @PutMapping( value = "/patient/{id}")
+    public PatientBean updatePatient(@RequestBody PatientBean newPatient, @PathVariable Integer id);
     
     /**
      * creates patient.
      * @return created patient with id in database.
      */
-    public PatientBean createPatient(PatientBean newPatient);
+    @PostMapping( value = "/patient/add")
+    public PatientBean createPatient(@RequestBody PatientBean newPatient);
 
     /**
      * delete patient.
      */
-    public void deletePatient(Integer id);
+    @DeleteMapping( value = "/patient/delete/{id}")
+    public void deletePatient(@PathVariable Integer id);
     
     /**
      * checks if a patient exists by firstname+lastname.
      * @return boolean true if patient exists.
      */
-    public Boolean existPatient(PatientBean newPatient);
+    @PostMapping( value = "/patient/exist")
+    public Boolean existPatient(@RequestBody PatientBean newPatient);
     
 }

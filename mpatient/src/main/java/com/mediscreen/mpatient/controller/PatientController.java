@@ -36,9 +36,8 @@ public class PatientController {
 	@ApiOperation(value = "This endpoint returns all patients.")
     @GetMapping(value = "/patient")
     public List<Patient> GetAllPatients() throws PatientNotFoundException{
-
+	
         List<Patient> listePatientdata = patientRepository.findAll();
-        if(listePatientdata.isEmpty()) throw new PatientNotFoundException("Aucun patient n'est inscrit");
         return listePatientdata;
     }
     
@@ -114,7 +113,6 @@ public class PatientController {
      * @return updated patient
      * @throws PatientNotFoundException if patient id does not exist in database
      */
-	/*
 	@ApiOperation(value = "This endpoint deletes a patient.")
 	@DeleteMapping( value = "/patient/delete/{id}")
 	public void deletePatient(
@@ -124,11 +122,9 @@ public class PatientController {
 			@PathVariable Integer id
 			) throws PatientNotFoundException {
 
-		Optional<Patient> oldPatient = patientRepository.findById(id);
-		if(!oldPatient.isPresent())  throw new PatientNotFoundException("Suppression impossible, le patient correspondant à l'id " + id + " n'existe pas");
+		if(!patientRepository.existsById(id)) throw new PatientNotFoundException("Suppression impossible, le patient correspondant à l'id " + id + " n'existe pas");
 		patientRepository.deleteById(id);
 	}
-	*/
 	
     /**
      * endpoint that checks if a patient exists by firstname+lastname.

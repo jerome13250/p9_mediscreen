@@ -1,13 +1,10 @@
 package com.mediscreen.mpatient.controllerIT;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -16,18 +13,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import javax.transaction.Transactional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
@@ -35,7 +28,6 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mediscreen.mpatient.controller.PatientController;
 import com.mediscreen.mpatient.exception.PatientAlreadyExistException;
 import com.mediscreen.mpatient.exception.PatientNotFoundException;
 import com.mediscreen.mpatient.model.Patient;
@@ -53,6 +45,8 @@ class PatientControllerTestIT {
 	private MockMvc mockMvc;
 	@Autowired
 	private ObjectMapper objectMapper;
+	@Autowired
+	PatientRepository patientRepository;
 
 	Patient patient1;
 	Patient patient2;
@@ -182,7 +176,28 @@ class PatientControllerTestIT {
 	}
 	
 	@Test
-	void existPatient() throws Exception {
+	void DeletePatient_shouldSucceed() throws Exception {
+		//ACT+ASSERT
+		mockMvc.perform(delete("/patient/delete/1"));
+
+		//check patient delete:
+		assertFalse(patientRepository.existsById(1));
+		assertEquals(3,patientRepository.findAll().size());
+	}
+
+	@Test
+	void DeletePatient_DoesntExistExpected() throws Exception {
+		//ACT+ASSERT
+		mockMvc.perform(delete("/patient/delete/9999999"))
+		.andExpect(status().isNotFound())
+		.andExpect(result -> assertTrue(result.getResolvedException() instanceof PatientNotFoundException));
+
+		//check no patient delete:
+		assertEquals(4,patientRepository.findAll().size());
+	}
+	
+	@Test
+	void existPatientByFirstNameLastname() throws Exception {
 		//ARRANGE
 		patient2.setId(1);
 		String jsonContent = objectMapper.writeValueAsString(patient2);
