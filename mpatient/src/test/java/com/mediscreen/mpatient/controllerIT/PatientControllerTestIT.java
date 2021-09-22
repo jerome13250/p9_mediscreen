@@ -23,6 +23,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
@@ -39,6 +40,17 @@ import com.mediscreen.mpatient.repository.PatientRepository;
 @ActiveProfiles("test")
 //@Transactional creates a new transaction that is by default automatically ROLLED BACK after test completion.
 @Transactional
+//Populate H2 test database: 
+//note that database and schema is created by spring.jpa.hibernate.ddl-auto=create
+@Sql(statements = { 
+	    "INSERT INTO `patient` (`id`, `firstname`, `lastname`, `birthdate`, `sex`, `address`, `phone`) VALUES\r\n"
+	    + "	(1, 'john', 'doe', '1990-09-10', 'M', '1st street New-York', '222333444555'),\r\n"
+	    + "	(2, 'jane', 'doe', '1995-05-24', 'F', '1st street New-York', '222333444555'),\r\n"
+	    + "	(3, 'michael', 'knight', '1999-12-25', 'M', 'Palmas Residence Miami', '111222333444'),\r\n"
+	    + "	(4, 'eva', 'johnson', '2003-09-23', 'M', '23rd street Seattle', '999888777666');"
+	    }
+	)
+
 class PatientControllerTestIT {
 
 	@Autowired
