@@ -31,6 +31,7 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mediscreen.mpatient.exception.BadRequestException;
 import com.mediscreen.mpatient.exception.PatientAlreadyExistException;
 import com.mediscreen.mpatient.exception.PatientNotFoundException;
 import com.mediscreen.mpatient.model.Patient;
@@ -116,7 +117,7 @@ class PatientControllerTest {
 
 		//ACT+ASSERT
 		MvcResult result = mockMvc.perform(
-				put("/patient/1")
+				put("/patient")
 				.contentType(MediaType.APPLICATION_JSON).content(jsonContent)
 				)
 				.andExpect(status().isOk())
@@ -145,13 +146,29 @@ class PatientControllerTest {
 	}
 
 	@Test
-	void PutPatient_IsNotFoundExpected() throws Exception {
+	void PutPatient_IsBadRequestExpected() throws Exception {
 		//ARRANGE
-		when(patientRepository.findById(1)).thenReturn(Optional.empty());
+		patient1.setId(null);
 		String jsonContent = objectMapper.writeValueAsString(patient1);
 
 		//ACT+ASSERT
-		mockMvc.perform(put("/patient/1")
+		mockMvc.perform(put("/patient")
+				.contentType(MediaType.APPLICATION_JSON).content(jsonContent)
+				)
+		.andExpect(status().isBadRequest())
+		.andExpect(result -> assertTrue(result.getResolvedException() instanceof BadRequestException));
+	}
+	
+	@Test
+	void PutPatient_IsNotFoundExpected() throws Exception {
+		//ARRANGE
+		patient1.setId(1);
+		String jsonContent = objectMapper.writeValueAsString(patient1);
+
+		when(patientRepository.findById(1)).thenReturn(Optional.empty());
+		
+		//ACT+ASSERT
+		mockMvc.perform(put("/patient")
 				.contentType(MediaType.APPLICATION_JSON).content(jsonContent)
 				)
 		.andExpect(status().isNotFound())

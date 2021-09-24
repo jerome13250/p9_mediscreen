@@ -20,15 +20,17 @@ EXPOSE 8081
 CMD java -jar /tmp/app/mpatient-0.0.1-SNAPSHOT.jar
 
 ###########################
-#client UI
+#Client UI
 ###########################
 # Alpine Linux with OpenJDK JRE
 FROM openjdk:8-jre-alpine AS clientui
+# Install curl for healthcheck
+RUN apk --no-cache add curl
 # Add folder :
 RUN mkdir /tmp/app
 # copy JAR into image
-COPY ./webapp/build/libs/webapp-1.0.0.jar /tmp/app
+COPY ./clientui/target/clientui-0.0.1-SNAPSHOT.jar /tmp/app
 #api port
-EXPOSE 8080
+EXPOSE 8081
 # run java app:
-CMD java -jar /tmp/app/webapp-1.0.0.jar
+CMD java -jar /tmp/app/clientui-0.0.1-SNAPSHOT.jar

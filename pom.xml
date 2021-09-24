@@ -26,6 +26,7 @@
 	<modules>
 		<module>clientui</module>
 		<module>mpatient</module>
+		<module>mnote</module>
 		<module>report</module>
 	</modules>
 

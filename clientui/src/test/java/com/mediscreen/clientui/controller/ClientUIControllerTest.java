@@ -139,13 +139,10 @@ class ClientUIControllerTest {
 
 		//check user create:
 		ArgumentCaptor<PatientBean> patientBeanArgumentCaptor = ArgumentCaptor.forClass(PatientBean.class);
-		ArgumentCaptor<Integer> integerArgumentCaptor = ArgumentCaptor.forClass(Integer.class);
-		verify(patientsProxy,times(1)).updatePatient(patientBeanArgumentCaptor.capture(),integerArgumentCaptor.capture());
+		verify(patientsProxy,times(1)).updatePatient(patientBeanArgumentCaptor.capture());
 		PatientBean patientBeanCaptured = patientBeanArgumentCaptor.getValue();
-		Integer integerCaptured = integerArgumentCaptor.getValue();
 		assertEquals(patientBean1,patientBeanCaptured);
 		assertEquals(1,patientBeanCaptured.getId());
-		assertEquals(1,integerCaptured);
 
 	}
 

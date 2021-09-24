@@ -17,12 +17,14 @@
 
 	<div class="container">
 		<div class="row py-2">
-			<div class="col-6">
-				<h2>Patients listing</h2>
+			<div class="col-6 col-sm-9">
+				<h2>Notes for patient: 
+					<span class="h3 text-success font-weight-bold" th:text="${patient.given} + ' ' + ${patient.family}"></span>
+				</h2>
 			</div>
-			<div class="col-6 text-right">
+			<div class="col-6 col-sm-3 text-right">
 				<a href="#" class="btn btn-success btn-lg" role="button"
-					th:href="@{/patientForm}">Create patient</a>
+					th:href="@{/noteForm(patId=${patient.id})}">Create note</a>
 			</div>
 		</div>
 
@@ -30,27 +32,17 @@
 		<table class="table">
 			<thead class="thead-light">
 				<tr>
-					<th class="text-left">First name</th>
-					<th class="text-left">Last name</th>
-					<th class="text-left d-none d-md-table-cell">Date of birth</th>
-					<th class="text-left">notes</th>
+					<th class="text-left">Doctor note</th>
 					<th class="text-left"></th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr th:each="patient : ${patients}">
-					<td th:text="${patient.given}"></td>
-					<td th:text="${patient.family}"></td>
-					<td th:text="${patient.dob}" class="d-none d-md-table-cell"></td>
+				<tr th:each="patientNote : ${listNotes}">
+					<td th:text="${patientNote.note}"></td>
 					<td>
-						 <a th:href="@{'/patients/note/{id}'(id=${patient.id})}">
-						 	<img class="mh-50" src="img/doctor_notes.webp" alt="Link to doctor notes" title="Link to doctor notes" />
-						 </a>
-					</td>
-					<td>
-						<form method="post" action="#" th:action="@{'/patients/delete/{id}'(id=${patient.id})}" 
+						<form method="post" action="#" th:action="@{'/notes/delete/{id}'(id=${patientNote.id})}" 
 							class="form-inline justify-content-end" >
-							<a href="#" class="btn btn-info" role="button" th:href="@{/patientForm(id=${patient.id})}">Update</a>
+							<a href="#" class="btn btn-info" role="button" th:href="@{/noteForm(id=${patientNote.id},patId=${patientNote.patId})}">Update</a>
 						    <button type="submit" class="btn btn-danger">
 						        Delete
 						    </button>

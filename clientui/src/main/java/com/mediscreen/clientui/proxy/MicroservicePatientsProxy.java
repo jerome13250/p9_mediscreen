@@ -2,15 +2,6 @@ package com.mediscreen.clientui.proxy;
 
 import java.util.List;
 
-import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-
 import com.mediscreen.clientui.beans.PatientBean;
 
 public interface MicroservicePatientsProxy {
@@ -33,7 +24,7 @@ public interface MicroservicePatientsProxy {
      * @param id the patient id
      * @return updated patient
      */
-    public PatientBean updatePatient(PatientBean newPatient,Integer id);
+    public PatientBean updatePatient(PatientBean newPatient);
     
     /**
      * creates patient.

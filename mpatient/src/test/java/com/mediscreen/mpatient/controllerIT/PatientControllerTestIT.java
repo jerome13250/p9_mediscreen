@@ -115,11 +115,12 @@ class PatientControllerTestIT {
 	@Test
 	void UpdatePatient_shouldSucceed() throws Exception {
 		//ARRANGE
+		patient2.setId(1);
 		String jsonContent = objectMapper.writeValueAsString(patient2);
 
 		//ACT+ASSERT
 		MvcResult result = mockMvc.perform(
-				put("/patient/1")
+				put("/patient")
 				.contentType(MediaType.APPLICATION_JSON).content(jsonContent)
 				)
 				.andExpect(status().isOk())
@@ -139,10 +140,11 @@ class PatientControllerTestIT {
 	@Test
 	void PutPatient_IsNotFoundExpected() throws Exception {
 		//ARRANGE
+		patient1.setId(999); //999 does not exist in our test db
 		String jsonContent = objectMapper.writeValueAsString(patient1);
 
 		//ACT+ASSERT
-		mockMvc.perform(put("/patient/999")
+		mockMvc.perform(put("/patient")
 				.contentType(MediaType.APPLICATION_JSON).content(jsonContent)
 				)
 		.andExpect(status().isNotFound())
