@@ -47,6 +47,9 @@ public class ClientUIController {
 	public String deletePatient(@PathVariable Integer id){
 
 		patientProxy.deletePatient(id);
+		//we need to remove comments on the deleted patient:
+		noteProxy.deleteAllNotesByPatientId(id);
+		
 		return "redirect:/patients";
 	}
 
@@ -88,7 +91,7 @@ public class ClientUIController {
 		return "redirect:/patients";
 	}
 
-	@GetMapping("/patients/note/{id}")
+	@GetMapping("/patients/{id}/notes")
 	public String patientNotes(@PathVariable Integer id, Model model){
 
 		PatientBean patient =  patientProxy.getPatient(id);
@@ -132,15 +135,15 @@ public class ClientUIController {
 			noteProxy.updateNote(note);
 		}
 
-		return "redirect:/patients/note/" + note.getPatId();
+		return "redirect:/patients/" + note.getPatId() + "/notes";
 	}
 
 	//Use POST since browsers do not support PUT and DELETE via form submission
 	//https://code.i-harness.com/en/q/1007044
-	@PostMapping("/notes/delete/{id}")
-	public String deleteNote(@PathVariable String id){
+	@PostMapping("/patients/{patId}/notes/delete/{id}")
+	public String deleteNote(@PathVariable Integer patId, @PathVariable String id){
 
 		noteProxy.deleteNote(id);
-		return "redirect:/patients"; //FIXME: pas la bonne redirection
+		return "redirect:/patients/" + patId + "/notes";
 	}
 }

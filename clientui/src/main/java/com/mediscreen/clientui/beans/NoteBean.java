@@ -1,5 +1,6 @@
 package com.mediscreen.clientui.beans;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
@@ -20,7 +21,7 @@ public class NoteBean {
     @NotNull
     private Integer patId;
 
-    @NotNull
+    @NotBlank
     private String note;
 	
 }

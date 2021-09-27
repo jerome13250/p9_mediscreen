@@ -79,7 +79,7 @@ class PatientControllerTestIT {
 
 		//ACT+ASSERT
 		MvcResult result = mockMvc
-				.perform(get("/patient"))
+				.perform(get("/patients"))
 				.andExpect(status().is2xxSuccessful())
 				.andReturn();
 
@@ -93,7 +93,7 @@ class PatientControllerTestIT {
 
 		//ACT+ASSERT
 		MvcResult result = mockMvc
-				.perform(get("/patient/1"))
+				.perform(get("/patients/1"))
 				.andExpect(status().is2xxSuccessful())
 				.andReturn();
 
@@ -107,7 +107,7 @@ class PatientControllerTestIT {
 	void GetPatient_IsNotFoundExpected() throws Exception {
 
 		//ACT+ASSERT
-		mockMvc.perform(get("/patient/999"))
+		mockMvc.perform(get("/patients/999"))
 		.andExpect(status().isNotFound())
 		.andExpect(result -> assertTrue(result.getResolvedException() instanceof PatientNotFoundException));
 	}
@@ -120,7 +120,7 @@ class PatientControllerTestIT {
 
 		//ACT+ASSERT
 		MvcResult result = mockMvc.perform(
-				put("/patient")
+				put("/patients")
 				.contentType(MediaType.APPLICATION_JSON).content(jsonContent)
 				)
 				.andExpect(status().isOk())
@@ -144,7 +144,7 @@ class PatientControllerTestIT {
 		String jsonContent = objectMapper.writeValueAsString(patient1);
 
 		//ACT+ASSERT
-		mockMvc.perform(put("/patient")
+		mockMvc.perform(put("/patients")
 				.contentType(MediaType.APPLICATION_JSON).content(jsonContent)
 				)
 		.andExpect(status().isNotFound())
@@ -159,7 +159,7 @@ class PatientControllerTestIT {
 
 		//ACT+ASSERT
 		MvcResult result = mockMvc.perform(
-				post("/patient/add")
+				post("/patients/add")
 				.contentType(MediaType.APPLICATION_JSON).content(jsonContent)
 				)
 				.andExpect(status().isOk())
@@ -182,7 +182,7 @@ class PatientControllerTestIT {
 		String jsonContent = objectMapper.writeValueAsString(patient1);
 		
 		//ACT+ASSERT
-		mockMvc.perform(post("/patient/add")
+		mockMvc.perform(post("/patients/add")
 				.contentType(MediaType.APPLICATION_JSON).content(jsonContent)
 				)
 		.andExpect(status().isConflict())
@@ -192,7 +192,7 @@ class PatientControllerTestIT {
 	@Test
 	void DeletePatient_shouldSucceed() throws Exception {
 		//ACT+ASSERT
-		mockMvc.perform(delete("/patient/delete/1"));
+		mockMvc.perform(delete("/patients/delete/1"));
 
 		//check patient delete:
 		assertFalse(patientRepository.existsById(1));
@@ -202,7 +202,7 @@ class PatientControllerTestIT {
 	@Test
 	void DeletePatient_DoesntExistExpected() throws Exception {
 		//ACT+ASSERT
-		mockMvc.perform(delete("/patient/delete/9999999"))
+		mockMvc.perform(delete("/patients/delete/9999999"))
 		.andExpect(status().isNotFound())
 		.andExpect(result -> assertTrue(result.getResolvedException() instanceof PatientNotFoundException));
 
@@ -219,7 +219,7 @@ class PatientControllerTestIT {
 		//ACT+ASSERT
 		MvcResult result = 
 				mockMvc.perform(
-				post("/patient/exist")
+				post("/patients/exist")
 				.contentType(MediaType.APPLICATION_JSON).content(jsonContent)
 				)
 				.andExpect(status().isOk())

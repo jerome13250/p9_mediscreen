@@ -29,7 +29,7 @@
 		</div>
 
 
-		<table class="table">
+		<table class="table table-striped">
 			<thead class="thead-light">
 				<tr>
 					<th class="text-left">Doctor note</th>
@@ -38,16 +38,17 @@
 			</thead>
 			<tbody>
 				<tr th:each="patientNote : ${listNotes}">
-					<td th:text="${patientNote.note}"></td>
+					<td class="whitespaceprewrap" th:text="${patientNote.note}"></td>
 					<td>
-						<form method="post" action="#" th:action="@{'/notes/delete/{id}'(id=${patientNote.id})}" 
+						<form method="post" action="#" 
+							th:action="@{'/patients/{patId}/notes/delete/{id}'(patId=${patientNote.patId},id=${patientNote.id})}" 
 							class="form-inline justify-content-end" >
-							<a href="#" class="btn btn-info" role="button" th:href="@{/noteForm(id=${patientNote.id},patId=${patientNote.patId})}">Update</a>
+							<a href="#" class="btn btn-info" role="button" 
+								th:href="@{/noteForm(id=${patientNote.id},patId=${patientNote.patId})}">Update</a>
 						    <button type="submit" class="btn btn-danger">
 						        Delete
 						    </button>
 						</form>
-
 					</td>
 				</tr>
 			</tbody>

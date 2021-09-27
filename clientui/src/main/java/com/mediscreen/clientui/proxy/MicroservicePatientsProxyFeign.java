@@ -20,7 +20,7 @@ public interface MicroservicePatientsProxyFeign{
 	 * returns list of all patients in database
 	 * @return all patients
 	 */
-	@GetMapping(value = "/patient")
+	@GetMapping(value = "/patients")
 	public List<PatientBean> getAllPatients();
 	
 	/**
@@ -28,7 +28,7 @@ public interface MicroservicePatientsProxyFeign{
      * @param id the patient id
      * @return patient
      */
-    @GetMapping( value = "/patient/{id}")
+    @GetMapping( value = "/patients/{id}")
     public PatientBean getPatient(@PathVariable int id);
 
     /**
@@ -36,27 +36,27 @@ public interface MicroservicePatientsProxyFeign{
      * @param id the patient id
      * @return updated patient
      */
-    @PutMapping( value = "/patient")
+    @PutMapping( value = "/patients")
     public PatientBean updatePatient(@RequestBody PatientBean newPatient);
     
     /**
      * creates patient.
      * @return created patient with id in database.
      */
-    @PostMapping( value = "/patient/add")
+    @PostMapping( value = "/patients/add")
     public PatientBean createPatient(@RequestBody PatientBean newPatient);
 
     /**
      * delete patient.
      */
-    @DeleteMapping( value = "/patient/delete/{id}")
+    @DeleteMapping( value = "/patients/delete/{id}")
     public void deletePatient(@PathVariable Integer id);
     
     /**
      * checks if a patient exists by firstname+lastname.
      * @return boolean true if patient exists.
      */
-    @PostMapping( value = "/patient/exist")
+    @PostMapping( value = "/patients/exist")
     public Boolean existPatient(@RequestBody PatientBean newPatient);
     
 }

@@ -1,5 +1,6 @@
 package com.mediscreen.mnote.model;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.data.annotation.Id;
@@ -24,7 +25,7 @@ public class Note {
     @NotNull
     private Integer patId;
 
-    @NotNull
+    @NotBlank
     private String note;
 
 }

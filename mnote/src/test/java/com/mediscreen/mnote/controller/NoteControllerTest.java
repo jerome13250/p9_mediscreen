@@ -69,7 +69,7 @@ class NoteControllerTest {
 
 		//ACT+ASSERT
 		MvcResult result = mockMvc
-				.perform(get("/note"))
+				.perform(get("/notes"))
 				.andExpect(status().is2xxSuccessful())
 				.andReturn();
 
@@ -85,7 +85,7 @@ class NoteControllerTest {
 
 		//ACT+ASSERT
 		MvcResult result = mockMvc
-				.perform(get("/note/mongodb_id1"))
+				.perform(get("/notes/mongodb_id1"))
 				.andExpect(status().is2xxSuccessful())
 				.andReturn();
 
@@ -101,7 +101,7 @@ class NoteControllerTest {
 		when(noteRepository.findById("mongodb_id999")).thenReturn(Optional.empty());
 
 		//ACT+ASSERT
-		mockMvc.perform(get("/note/mongodb_id999"))
+		mockMvc.perform(get("/notes/mongodb_id999"))
 		.andExpect(status().isNotFound())
 		.andExpect(result -> assertTrue(result.getResolvedException() instanceof NoteNotFoundException));
 	}
@@ -117,7 +117,7 @@ class NoteControllerTest {
 
 		//ACT+ASSERT
 		MvcResult result = mockMvc.perform(
-				put("/note")
+				put("/notes")
 				.contentType(MediaType.APPLICATION_JSON).content(jsonContent)
 				)
 				.andExpect(status().isOk())
@@ -143,7 +143,7 @@ class NoteControllerTest {
 		String jsonContent = objectMapper.writeValueAsString(note2);
 		
 		//ACT+ASSERT
-		mockMvc.perform(put("/note")
+		mockMvc.perform(put("/notes")
 				.contentType(MediaType.APPLICATION_JSON).content(jsonContent)
 				)
 		.andExpect(status().isBadRequest())
@@ -159,7 +159,7 @@ class NoteControllerTest {
 		when(noteRepository.findById("mongodb_id1")).thenReturn(Optional.empty());
 				
 		//ACT+ASSERT
-		mockMvc.perform(put("/note")
+		mockMvc.perform(put("/notes")
 				.contentType(MediaType.APPLICATION_JSON).content(jsonContent)
 				)
 		.andExpect(status().isNotFound())
@@ -176,7 +176,7 @@ class NoteControllerTest {
 		//ACT+ASSERT
 		MvcResult result = 
 				mockMvc.perform(
-						post("/note/add")
+						post("/notes/add")
 						.contentType(MediaType.APPLICATION_JSON).content(jsonContent)
 						)
 				.andExpect(status().isOk())
@@ -202,7 +202,7 @@ class NoteControllerTest {
 		when(noteRepository.existsById("mongodb_id1")).thenReturn(Boolean.TRUE);
 
 		//ACT+ASSERT
-		mockMvc.perform(delete("/note/delete/mongodb_id1"));
+		mockMvc.perform(delete("/notes/delete/mongodb_id1"));
 
 		//check note update:
 		verify(noteRepository,times(1)).deleteById("mongodb_id1");
@@ -214,7 +214,7 @@ class NoteControllerTest {
 		when(noteRepository.existsById("mongodb_id1")).thenReturn(Boolean.FALSE);
 
 		//ACT+ASSERT
-		mockMvc.perform(delete("/note/delete/mongodb_id1"))
+		mockMvc.perform(delete("/notes/delete/mongodb_id1"))
 		.andExpect(status().isNotFound())
 		.andExpect(result -> assertTrue(result.getResolvedException() instanceof NoteNotFoundException));
 

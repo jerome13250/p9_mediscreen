@@ -81,8 +81,11 @@ class ClientUIControllerTest {
 		.andExpect(redirectedUrl("/patients"))
 		;
 
-		//check user update:
+		//check user delete:
 		verify(patientsProxy,times(1)).deletePatient(1);
+		//check notes delete:
+		verify(notesProxy,times(1)).deleteAllNotesByPatientId(1);
+		
 	}
 
 	@Test

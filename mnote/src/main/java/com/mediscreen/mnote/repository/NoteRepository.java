@@ -12,6 +12,8 @@ public interface NoteRepository extends MongoRepository<Note,String>{
 
 	List<Note> findByPatId(Integer patId);
 	
+	void deleteAllByPatId(Integer patId);
+	
 	//TODO: Resoudre bug
 	//readStartDocument can only be called when CurrentBSONType is DOCUMENT, not when CurrentBSONType is STRING.
 	@Query("db.note.aggregate(["

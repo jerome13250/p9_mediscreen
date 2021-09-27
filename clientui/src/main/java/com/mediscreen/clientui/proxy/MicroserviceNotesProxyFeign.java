@@ -2,8 +2,6 @@ package com.mediscreen.clientui.proxy;
 
 import java.util.List;
 
-import javax.validation.Valid;
-
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +20,7 @@ public interface MicroserviceNotesProxyFeign{
 	 * returns list of all notes in database
 	 * @return all notes
 	 */
-	@GetMapping(value = "/note")
+	@GetMapping(value = "/notes")
 	public List<NoteBean> getAllNotes();
 	
 	/**
@@ -30,7 +28,7 @@ public interface MicroserviceNotesProxyFeign{
      * @param id the note id
      * @return note
      */
-    @GetMapping( value = "/note/{id}")
+    @GetMapping( value = "/notes/{id}")
     public NoteBean getNote(@PathVariable String id);
 
     /**
@@ -38,20 +36,21 @@ public interface MicroserviceNotesProxyFeign{
      * @param id the note id
      * @return updated note
      */
-    @PutMapping( value = "/note")
+    @PutMapping( value = "/notes")
     public NoteBean updateNote(@RequestBody NoteBean updatedNote);
     
     /**
      * creates note.
      * @return created note with id in database.
      */
-    @PostMapping( value = "/note/add")
+    @PostMapping( value = "/notes/add")
     public NoteBean createNote(@RequestBody NoteBean newNote);
 
     /**
      * delete note.
+     * @param id the id of the note
      */
-    @DeleteMapping( value = "/note/delete/{id}")
+    @DeleteMapping( value = "/notes/delete/{id}")
     public void deleteNote(@PathVariable String id);
     
     /**
@@ -59,7 +58,14 @@ public interface MicroserviceNotesProxyFeign{
 	 * @param patId patient id
 	 * @return List of notes
 	 */
-    @GetMapping( value = "/note/parent/{patId}")
+    @GetMapping( value = "/patients/{patId}/notes")
 	public List<NoteBean> getListOfNotesByPatientId(@PathVariable Integer patId);
     
+    /**
+	 * endpoint that deletes all notes with a specified patient id
+	 * @param patId patient id
+	 */
+	@DeleteMapping( value = "/patients/{patId}/notes/delete")
+	public void deleteAllNotesByPatientId(@PathVariable Integer patId);
+	
 }

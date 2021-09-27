@@ -43,7 +43,7 @@
 					<td th:text="${patient.family}"></td>
 					<td th:text="${patient.dob}" class="d-none d-md-table-cell"></td>
 					<td>
-						 <a th:href="@{'/patients/note/{id}'(id=${patient.id})}">
+						 <a th:href="@{'/patients/{id}/notes'(id=${patient.id})}">
 						 	<img class="mh-50" src="img/doctor_notes.webp" alt="Link to doctor notes" title="Link to doctor notes" />
 						 </a>
 					</td>

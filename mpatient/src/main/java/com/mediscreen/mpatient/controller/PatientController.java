@@ -34,7 +34,7 @@ public class PatientController {
 	 * @return all patients
 	 */
 	@ApiOperation(value = "This endpoint returns all patients.")
-	@GetMapping(value = "/patient")
+	@GetMapping(value = "/patients")
 	public List<Patient> GetAllPatients() {
 
 		List<Patient> listePatientdata = patientRepository.findAll();
@@ -48,7 +48,7 @@ public class PatientController {
 	 * @throws PatientNotFoundException if patient id does not exist in database
 	 */
 	@ApiOperation(value = "This endpoint returns a patient from its id.")
-	@GetMapping( value = "/patient/{id}")
+	@GetMapping( value = "/patients/{id}")
 	public Optional<Patient> getPatient(
 			@ApiParam(
 					value = "Patient id",
@@ -73,7 +73,7 @@ public class PatientController {
 	 * @throws BadRequestException if patient id is null
 	 */
 	@ApiOperation(value = "This endpoint updates a patient.")
-	@PutMapping( value = "/patient")
+	@PutMapping( value = "/patients")
 	public Patient updatePatient(
 			@ApiParam(
 					value = "Patient object in json format"
@@ -99,7 +99,7 @@ public class PatientController {
 	 * @throws PatientAlreadyExistException if patient already exists in database, based on firstname+lastname
 	 */
 	@ApiOperation(value = "This endpoint creates a patient.")
-	@PostMapping( value = "/patient/add")
+	@PostMapping( value = "/patients/add")
 	public Patient createPatient(
 			@ApiParam(
 					value = "Patient object in json format"
@@ -122,7 +122,7 @@ public class PatientController {
 	 * @throws PatientNotFoundException if patient id does not exist in database
 	 */
 	@ApiOperation(value = "This endpoint deletes a patient.")
-	@DeleteMapping( value = "/patient/delete/{id}")
+	@DeleteMapping( value = "/patients/delete/{id}")
 	public void deletePatient(
 			@ApiParam(
 					value = "Patient id",
@@ -139,7 +139,7 @@ public class PatientController {
 	 * @return boolean true if patient exists.
 	 */
 	@ApiOperation(value = "This endpoint checks if a patient exist by firstname and lastname.")
-	@PostMapping( value = "/patient/exist")
+	@PostMapping( value = "/patients/exist")
 	public Boolean existPatient(
 			@ApiParam(
 					value = "Patient object in json format"

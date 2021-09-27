@@ -69,7 +69,7 @@ class PatientControllerTest {
 
 		//ACT+ASSERT
 		MvcResult result = mockMvc
-				.perform(get("/patient"))
+				.perform(get("/patients"))
 				.andExpect(status().is2xxSuccessful())
 				.andReturn();
 
@@ -85,7 +85,7 @@ class PatientControllerTest {
 
 		//ACT+ASSERT
 		MvcResult result = mockMvc
-				.perform(get("/patient/1"))
+				.perform(get("/patients/1"))
 				.andExpect(status().is2xxSuccessful())
 				.andReturn();
 
@@ -101,7 +101,7 @@ class PatientControllerTest {
 		when(patientRepository.findById(1)).thenReturn(Optional.empty());
 
 		//ACT+ASSERT
-		mockMvc.perform(get("/patient/1"))
+		mockMvc.perform(get("/patients/1"))
 		.andExpect(status().isNotFound())
 		.andExpect(result -> assertTrue(result.getResolvedException() instanceof PatientNotFoundException));
 	}
@@ -117,7 +117,7 @@ class PatientControllerTest {
 
 		//ACT+ASSERT
 		MvcResult result = mockMvc.perform(
-				put("/patient")
+				put("/patients")
 				.contentType(MediaType.APPLICATION_JSON).content(jsonContent)
 				)
 				.andExpect(status().isOk())
@@ -152,7 +152,7 @@ class PatientControllerTest {
 		String jsonContent = objectMapper.writeValueAsString(patient1);
 
 		//ACT+ASSERT
-		mockMvc.perform(put("/patient")
+		mockMvc.perform(put("/patients")
 				.contentType(MediaType.APPLICATION_JSON).content(jsonContent)
 				)
 		.andExpect(status().isBadRequest())
@@ -168,7 +168,7 @@ class PatientControllerTest {
 		when(patientRepository.findById(1)).thenReturn(Optional.empty());
 		
 		//ACT+ASSERT
-		mockMvc.perform(put("/patient")
+		mockMvc.perform(put("/patients")
 				.contentType(MediaType.APPLICATION_JSON).content(jsonContent)
 				)
 		.andExpect(status().isNotFound())
@@ -186,7 +186,7 @@ class PatientControllerTest {
 		//ACT+ASSERT
 		MvcResult result = 
 				mockMvc.perform(
-						post("/patient/add")
+						post("/patients/add")
 						.contentType(MediaType.APPLICATION_JSON).content(jsonContent)
 						)
 				.andExpect(status().isOk())
@@ -218,7 +218,7 @@ class PatientControllerTest {
 		String jsonContent = objectMapper.writeValueAsString(patient2);
 
 		//ACT+ASSERT
-		mockMvc.perform(post("/patient/add")
+		mockMvc.perform(post("/patients/add")
 				.contentType(MediaType.APPLICATION_JSON).content(jsonContent)
 				)
 		.andExpect(status().isConflict())
@@ -231,7 +231,7 @@ class PatientControllerTest {
 		when(patientRepository.existsById(1)).thenReturn(Boolean.TRUE);
 
 		//ACT+ASSERT
-		mockMvc.perform(delete("/patient/delete/1"));
+		mockMvc.perform(delete("/patients/delete/1"));
 
 		//check patient update:
 		verify(patientRepository,times(1)).deleteById(1);
@@ -243,7 +243,7 @@ class PatientControllerTest {
 		when(patientRepository.existsById(1)).thenReturn(Boolean.FALSE);
 
 		//ACT+ASSERT
-		mockMvc.perform(delete("/patient/delete/1"))
+		mockMvc.perform(delete("/patients/delete/1"))
 		.andExpect(status().isNotFound())
 		.andExpect(result -> assertTrue(result.getResolvedException() instanceof PatientNotFoundException));
 
@@ -261,7 +261,7 @@ class PatientControllerTest {
 		//ACT+ASSERT
 		MvcResult result = 
 				mockMvc.perform(
-						post("/patient/exist")
+						post("/patients/exist")
 						.contentType(MediaType.APPLICATION_JSON).content(jsonContent)
 						)
 				.andExpect(status().isOk())

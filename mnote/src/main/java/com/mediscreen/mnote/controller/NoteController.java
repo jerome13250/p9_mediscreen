@@ -34,7 +34,7 @@ public class NoteController {
 	 * @return all notes
 	 */
 	@ApiOperation(value = "This endpoint returns all notes.")
-	@GetMapping(value = "/note")
+	@GetMapping(value = "/notes")
 	public List<Note> getAllNotes() {
 
 		return noteRepository.findAll();
@@ -47,7 +47,7 @@ public class NoteController {
 	 * @throws NoteNotFoundException if note id does not exist in database
 	 */
 	@ApiOperation(value = "This endpoint returns a note from its id.")
-	@GetMapping( value = "/note/{id}")
+	@GetMapping( value = "/notes/{id}")
 	public Optional<Note> getNote(
 			@ApiParam(
 					value = "Note id",
@@ -68,7 +68,7 @@ public class NoteController {
 	 * @throws BadRequestException  if note id is null
 	 */
 	@ApiOperation(value = "This endpoint updates a note.")
-	@PutMapping( value = "/note")
+	@PutMapping( value = "/notes")
 	public Note updateNote(
 			@ApiParam(
 					value = "Note object in json format"
@@ -90,7 +90,7 @@ public class NoteController {
 	 * @return created note with id in database.
 	 */
 	@ApiOperation(value = "This endpoint creates a note.")
-	@PostMapping( value = "/note/add")
+	@PostMapping( value = "/notes/add")
 	public Note createNote(
 			@ApiParam(
 					value = "Note object in json format"
@@ -109,7 +109,7 @@ public class NoteController {
 	 * @throws NoteNotFoundException if note id does not exist in database
 	 */
 	@ApiOperation(value = "This endpoint deletes a note.")
-	@DeleteMapping( value = "/note/delete/{id}")
+	@DeleteMapping( value = "/notes/delete/{id}")
 	public void deleteNote(
 			@ApiParam(
 					value = "Note id",
@@ -127,17 +127,33 @@ public class NoteController {
 	 * @return List of notes
 	 */
 	@ApiOperation(value = "This endpoint returns a list of notes from a parent id.")
-	@GetMapping( value = "/note/parent/{id}")
+	@GetMapping( value = "/patients/{patId}/notes")
 	public List<Note> getListOfNotesByPatientId(
 			@ApiParam(
 					value = "Parent id",
 					example = "1")
-			@PathVariable Integer id) 
+			@PathVariable Integer patId) 
 			{
 
-		List<Note> listNotes = noteRepository.findByPatId(id);
+		List<Note> listNotes = noteRepository.findByPatId(patId);
 		
 		return listNotes;
+	}
+
+	/**
+	 * endpoint that deletes all notes with a specified patient id
+	 * @param patId patient id
+	 */
+	@ApiOperation(value = "This endpoint deletes all notes with the required patient id.")
+	@DeleteMapping( value = "/patients/{patId}/notes/delete/")
+	public void deleteAllNotesByPatientId(
+			@ApiParam(
+					value = "Patient id",
+					example = "1")
+			@PathVariable Integer patId
+			) {
+
+		noteRepository.deleteAllByPatId(patId);
 	}
 	
 	//TODO: Essayer de resoudre ca avec le mentor...
