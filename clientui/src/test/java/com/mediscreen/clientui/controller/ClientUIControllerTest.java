@@ -26,7 +26,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.mediscreen.clientui.beans.PatientBean;
-import com.mediscreen.clientui.proxy.MicroservicePatientsProxy;
+import com.mediscreen.clientui.proxy.MicroserviceNotesProxyFeign;
+import com.mediscreen.clientui.proxy.MicroservicePatientsProxyFeign;
 
 @WebMvcTest(controllers = ClientUIController.class) 
 class ClientUIControllerTest {
@@ -34,7 +35,9 @@ class ClientUIControllerTest {
 	@Autowired
 	private MockMvc mockMvc;
 	@MockBean
-	private MicroservicePatientsProxy patientsProxy;
+	private MicroservicePatientsProxyFeign patientsProxy;
+	@MockBean
+	private MicroserviceNotesProxyFeign notesProxy;
 
 	PatientBean patientBean1;
 	PatientBean patientBean2;

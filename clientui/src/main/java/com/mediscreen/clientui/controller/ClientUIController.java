@@ -16,17 +16,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.mediscreen.clientui.beans.NoteBean;
 import com.mediscreen.clientui.beans.PatientBean;
-import com.mediscreen.clientui.proxy.MicroserviceNotesProxy;
-import com.mediscreen.clientui.proxy.MicroservicePatientsProxy;
+import com.mediscreen.clientui.proxy.MicroserviceNotesProxyFeign;
+import com.mediscreen.clientui.proxy.MicroservicePatientsProxyFeign;
 
 @Controller
 public class ClientUIController {
 
 	@Autowired
-	private MicroservicePatientsProxy patientProxy;
+	private MicroservicePatientsProxyFeign patientProxy;
 
 	@Autowired
-	private MicroserviceNotesProxy noteProxy;
+	private MicroserviceNotesProxyFeign noteProxy;
 
 	@GetMapping("/")
 	public String accueil(Model model){

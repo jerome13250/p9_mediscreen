@@ -21,9 +21,8 @@
       <operations public="false" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </interface>  
-  <interface id="3" language="java" name="com.mediscreen.clientui.proxy.feign.MicroservicePatientsProxyFeign" 
-    project="clientui" 
-    file="/clientui/src/main/java/com/mediscreen/clientui/proxy/feign/MicroservicePatientsProxyFeign.java" 
+  <interface id="3" language="java" name="com.mediscreen.clientui.proxy.MicroservicePatientsProxyFeign" 
+    project="clientui" file="/clientui/src/main/java/com/mediscreen/clientui/proxy/MicroservicePatientsProxyFeign.java" 
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="460" y="256"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -32,14 +31,14 @@
       <operations public="false" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </interface>  
-  <generalization id="4">    
-    <end type="SOURCE" refId="3"/>    
-    <end type="TARGET" refId="2"/>  
-  </generalization>  
-  <association id="5">    
+  <association id="4">    
     <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="6" name="patientProxy"/>      
-      <multiplicity id="7" minimum="0" maximum="1"/>    
+      <attribute id="5" name="patientProxy">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="6" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="2" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
