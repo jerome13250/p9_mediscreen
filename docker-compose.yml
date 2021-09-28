@@ -24,8 +24,34 @@ services:
     depends_on:
       - mysql_docker
     restart: always
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql_docker/mediscreen?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: mpatient
+      SPRING_DATASOURCE_PASSWORD: mpatient
     ports:
       - "8081:8081"
+
+  mongodb_docker:
+    image: mongo:latest
+    volumes:
+      - db_data_mongo:/data/db
+      - mongo_config:/data/configdb
+    ports:
+      - "27018:27017"
+
+  mnote:
+    build:
+      context: .
+      target: mnote
+    depends_on:
+      - mongodb_docker
+    restart: always
+    environment:
+      SPRING_DATA_MONGODB_HOST: mongodb_docker
+      SPRING_DATA_MONGODB_PORT: 27017
+      SPRING_DATA_MONGODB_DATABASE: mediscreen
+    ports:
+      - "8082:8082"
       
   clientui:
     build:
@@ -33,9 +59,15 @@ services:
       target: clientui
     depends_on:
       - mpatient
+      - mnote
     restart: always
+    environment:
+      FEIGN_MPATIENT_URL: http://mpatient:8081
+      FEIGN_MNOTE_URL: http://mnote:8082
     ports:
       - "8080:8080"
 
 volumes:
   db_data: {}
+  db_data_mongo: {}
+  mongo_config: {}

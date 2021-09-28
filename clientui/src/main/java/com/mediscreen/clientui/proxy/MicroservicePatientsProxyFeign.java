@@ -12,8 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.mediscreen.clientui.beans.PatientBean;
 
-//TODO: url is static, @Value not possible, find a way to fix this ?
-@FeignClient(name = "microservice-patients", url = "localhost:8081")
+@FeignClient(name = "microservice-patients", url = "${feign.mpatient.url}")
 public interface MicroservicePatientsProxyFeign{
 
 	/**

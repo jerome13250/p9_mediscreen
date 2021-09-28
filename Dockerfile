@@ -20,6 +20,22 @@ EXPOSE 8081
 CMD java -jar /tmp/app/mpatient-0.0.1-SNAPSHOT.jar
 
 ###########################
+#microservice mnote
+###########################
+# Alpine Linux with OpenJDK JRE
+FROM openjdk:8-jre-alpine AS mnote
+# Install curl for healthcheck
+RUN apk --no-cache add curl
+# Add folder :
+RUN mkdir /tmp/app
+# copy JAR into image
+COPY ./mnote/target/mnote-0.0.1-SNAPSHOT.jar /tmp/app
+#api port
+EXPOSE 8081
+# run java app:
+CMD java -jar /tmp/app/mnote-0.0.1-SNAPSHOT.jar
+
+###########################
 #Client UI
 ###########################
 # Alpine Linux with OpenJDK JRE

@@ -145,7 +145,7 @@ public class NoteController {
 	 * @param patId patient id
 	 */
 	@ApiOperation(value = "This endpoint deletes all notes with the required patient id.")
-	@DeleteMapping( value = "/patients/{patId}/notes/delete/")
+	@DeleteMapping( value = "/patients/{patId}/notes/delete")
 	public void deleteAllNotesByPatientId(
 			@ApiParam(
 					value = "Patient id",
