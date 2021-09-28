@@ -126,7 +126,7 @@ public class NoteController {
 	 * @param patId patient id
 	 * @return List of notes
 	 */
-	@ApiOperation(value = "This endpoint returns a list of notes from a parent id.")
+	@ApiOperation(value = "This endpoint returns a list of notes for a patient id.")
 	@GetMapping( value = "/patients/{patId}/notes")
 	public List<Note> getListOfNotesByPatientId(
 			@ApiParam(

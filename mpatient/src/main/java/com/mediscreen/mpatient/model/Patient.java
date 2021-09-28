@@ -11,6 +11,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -39,6 +40,7 @@ public class Patient {
 			  required = true)
 	@Column(name="firstname")
 	@NotBlank
+	@Size(min=1,max=100)
 	String given;
 	
 	@ApiModelProperty(
@@ -47,6 +49,7 @@ public class Patient {
 			  required = true)
 	@Column(name="lastname")
 	@NotBlank
+	@Size(min=1,max=100)
 	String family;
 	
 	@ApiModelProperty(
@@ -70,12 +73,14 @@ public class Patient {
 			value = "Patient's postal address",
 			example = "1st street New-York",
 			required = false)
+	@Size(min=0,max=150)
 	String address;
 	
 	@ApiModelProperty(
 			value = "Patient's phone number",
 			example = "111-222-333",
 			required = false)
+	@Size(min=0,max=20)
 	String phone;
 
 	/**

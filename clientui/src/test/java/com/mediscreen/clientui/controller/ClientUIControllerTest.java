@@ -195,8 +195,9 @@ class ClientUIControllerTest {
 				)
 		.andExpect(status().isOk())//stays on patientForm
 		.andExpect(view().name("patientForm"))
-		.andExpect(model().attributeErrorCount("patient", 5))
+		.andExpect(model().attributeErrorCount("patient", 7))
 		;
+
 
 	}
 

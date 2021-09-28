@@ -7,7 +7,7 @@ services:
   mysql_docker:
     image: mysql:8
     volumes:
-      - db_data:/var/lib/mysql
+      - db_data_mysql:/var/lib/mysql
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
@@ -68,6 +68,6 @@ services:
       - "8080:8080"
 
 volumes:
-  db_data: {}
+  db_data_mysql: {}
   db_data_mongo: {}
   mongo_config: {}

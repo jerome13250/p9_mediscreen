@@ -1,4 +1,4 @@
-package com.mediscreen.mpatient.config;
+package com.mediscreen.mnote.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,7 +22,7 @@ public class SpringFoxConfig {
 	public Docket api() { 
 		return new Docket(DocumentationType.SWAGGER_2)  
 				.select()                                  
-				.apis(RequestHandlerSelectors.basePackage("com.mediscreen.mpatient.controller"))              
+				.apis(RequestHandlerSelectors.basePackage("com.mediscreen.mnote.controller"))              
 				.paths(PathSelectors.any())                          
 				.build()
 				.apiInfo(apiEndPointsInfo());
@@ -30,8 +30,8 @@ public class SpringFoxConfig {
 
 	private ApiInfo apiEndPointsInfo() {
 
-		return new ApiInfoBuilder().title("PATIENT Microservice REST API")
-				.description("Patient rest api")
+		return new ApiInfoBuilder().title("NOTE Microservice REST API")
+				.description("Note rest api")
 				.contact(new Contact("Lassus Jerome", "www.example.com", "jerome@mail.com"))
 				.license("Apache 2.0")
 				.licenseUrl("http://www.apache.org/licenses/LICENSE-2.0.html")
