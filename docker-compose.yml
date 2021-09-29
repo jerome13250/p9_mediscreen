@@ -1,6 +1,7 @@
 # DockerFile MySQL sources:
 # https://openclassrooms.com/fr/courses/2035766-optimisez-votre-deploiement-en-creant-des-conteneurs-avec-docker/6211677-creez-un-fichier-docker-compose-pour-orchestrer-vos-conteneurs
 # https://dev.mysql.com/doc/refman/8.0/en/docker-mysql-more-topics.html
+# https://stackoverflow.com/questions/43322033/create-database-on-docker-compose-startup
 
 version: '3'
 services:
@@ -11,6 +12,8 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
+      ## MYSQL_DATABASE: Specify the name of a database to be created on image startup with a CREATE DATABASE IF NOT EXIST statement.
+      ## If MYSQL_USER and MYSQL_PASSWORD are supplied, the user is created and granted superuser access to this database
       MYSQL_DATABASE: mediscreen
       MYSQL_USER: mpatient
       MYSQL_PASSWORD: mpatient
