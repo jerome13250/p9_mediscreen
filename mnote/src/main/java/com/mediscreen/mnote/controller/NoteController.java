@@ -1,11 +1,14 @@
 package com.mediscreen.mnote.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -156,10 +159,24 @@ public class NoteController {
 		noteRepository.deleteAllByPatId(patId);
 	}
 	
-	//TODO: Essayer de resoudre ca avec le mentor...
-	@GetMapping( value = "/test")
-	public List<NoteCounter> test() {
-		return noteRepository.getNoteCounters();
+	/**
+	 * endpoint that returns the count of notes per patient
+	 * @return HashMap with key=patient id, value=count of notes
+	 */
+	@ApiOperation(value = "This endpoint returns a HashMap with key=patient id and value=count of notes for this patient.")
+	@GetMapping( value = "/notes/count")
+	public Map<Integer, Integer> getCountOfNotesPerPatient() {
+		AggregationResults<NoteCounter> result = noteRepository.getNoteCounters();
+		
+		List<NoteCounter> listNoteCounters = result.getMappedResults();
+		
+		//convert List to HashMap:
+        Map<Integer, Integer> mapNoteCounters = new HashMap<Integer, Integer>();
+        for( NoteCounter noteCounter : listNoteCounters ){
+        	mapNoteCounters.put( noteCounter.getPatId(), noteCounter.getCount());            
+        }
+		
+		return mapNoteCounters;
 	}
 	
 	

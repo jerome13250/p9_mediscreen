@@ -1,6 +1,7 @@
 package com.mediscreen.clientui.proxy;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -66,5 +67,12 @@ public interface MicroserviceNotesProxyFeign{
 	 */
 	@DeleteMapping( value = "/patients/{patId}/notes/delete")
 	public void deleteAllNotesByPatientId(@PathVariable Integer patId);
+	
+	/**
+	 * endpoint that returns the count of notes per patient
+	 * @return HashMap with key=patient id, value=count of notes
+	 */
+	@GetMapping( value = "/notes/count")
+	public Map<Integer, Integer> getCountOfNotesPerPatient();
 	
 }

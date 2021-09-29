@@ -1,6 +1,7 @@
 package com.mediscreen.clientui.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -35,9 +36,13 @@ public class ClientUIController {
 
 	@GetMapping("/patients")
 	public String patients(Model model){
-
+		//get all patients:
 		List<PatientBean> patients =  patientProxy.getAllPatients();
 		model.addAttribute("patients", patients);
+		//get note count per patient:
+		Map<Integer, Integer> mapCountOfNotesPerPatient = noteProxy.getCountOfNotesPerPatient();
+		model.addAttribute("mapcountnote", mapCountOfNotesPerPatient);
+		
 		return "patients";
 	}
 

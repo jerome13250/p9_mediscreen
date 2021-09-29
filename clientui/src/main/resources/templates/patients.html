@@ -45,6 +45,7 @@
 					<td>
 						 <a th:href="@{'/patients/{id}/notes'(id=${patient.id})}">
 						 	<img class="mh-50" src="img/doctor_notes.webp" alt="Link to doctor notes" title="Link to doctor notes" />
+						 	<span class="font-weight-bold" th:text="${mapcountnote.get(patient.id)}">0</span>
 						 </a>
 					</td>
 					<td>
