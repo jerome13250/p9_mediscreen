@@ -17,14 +17,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
+import org.bson.Document;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -34,6 +37,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mediscreen.mnote.exception.BadRequestException;
 import com.mediscreen.mnote.exception.NoteNotFoundException;
 import com.mediscreen.mnote.model.Note;
+import com.mediscreen.mnote.model.NoteCounter;
 import com.mediscreen.mnote.repository.NoteRepository;
 
 //@WebMvcTest tells Spring Boot to instantiate only the web layer and not the entire context
@@ -110,7 +114,7 @@ class NoteControllerTest {
 		//ARRANGE
 		note2.setId("mongodb_id1"); //objective=update note1 with values of note2
 		String jsonContent = objectMapper.writeValueAsString(note2);
-		
+
 		when(noteRepository.findById("mongodb_id1")).thenReturn(Optional.of(note1));
 		when(noteRepository.save(any(Note.class))).thenReturn(note2);
 
@@ -128,7 +132,7 @@ class NoteControllerTest {
 		Note noteCaptured = noteArgumentCaptor.getValue();
 		assertEquals(note2, noteCaptured);
 		assertEquals("mongodb_id1",noteCaptured.getId());
-		
+
 		Note noteReturned = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<Note>() {});
 		assertNotNull(noteReturned);
 		assertEquals(note2, noteReturned);
@@ -140,7 +144,7 @@ class NoteControllerTest {
 		//ARRANGE
 		note2.setId(null);
 		String jsonContent = objectMapper.writeValueAsString(note2);
-		
+
 		//ACT+ASSERT
 		mockMvc.perform(put("/notes")
 				.contentType(MediaType.APPLICATION_JSON).content(jsonContent)
@@ -148,15 +152,15 @@ class NoteControllerTest {
 		.andExpect(status().isBadRequest())
 		.andExpect(result -> assertTrue(result.getResolvedException() instanceof BadRequestException));
 	}
-	
+
 	@Test
 	void PutNote_IsNotFoundExpected() throws Exception {
 		//ARRANGE
 		note2.setId("mongodb_id1"); //objective=update note1 with values of note2
 		String jsonContent = objectMapper.writeValueAsString(note2);
-		
+
 		when(noteRepository.findById("mongodb_id1")).thenReturn(Optional.empty());
-				
+
 		//ACT+ASSERT
 		mockMvc.perform(put("/notes")
 				.contentType(MediaType.APPLICATION_JSON).content(jsonContent)
@@ -221,4 +225,58 @@ class NoteControllerTest {
 		verify(noteRepository,never()).deleteById("mongodb_id1");
 	}
 
+	@Test
+	void GetListOfNotesByPatientId() throws Exception {
+		//ARRANGE
+		when(noteRepository.findByPatId(1)).thenReturn(listNote);
+
+		//ACT+ASSERT
+		MvcResult result = mockMvc
+				.perform(get("/patients/1/notes"))
+				.andExpect(status().is2xxSuccessful())
+				.andReturn();
+
+		List<Note> listNoteResult = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<List<Note>>() {});
+		assertNotNull(listNoteResult);
+		assertEquals(note1, listNoteResult.get(0));
+		assertEquals("mongodb_id1", listNoteResult.get(0).getId());
+		assertEquals(note2, listNoteResult.get(1));
+		assertEquals("mongodb_id2", listNoteResult.get(1).getId());
+	}
+
+	@Test
+	void DeleteAllNotesByPatientId() throws Exception {
+
+		//ACT+ASSERT
+		mockMvc
+		.perform(delete("/patients/1/notes/delete"))
+		.andExpect(status().is2xxSuccessful());
+		
+		verify(noteRepository,times(1)).deleteAllByPatId(1);
+
+	}
+	
+	@Test
+	void getCountOfNotesPerPatient() throws Exception {
+		//ARRANGE
+		NoteCounter counter1 = new NoteCounter(1,5);
+		NoteCounter counter2 = new NoteCounter(2,8);
+		List<NoteCounter> listNoteCounter = new ArrayList<>();
+		listNoteCounter.add(counter1);
+		listNoteCounter.add(counter2);
+		
+		AggregationResults<NoteCounter> aggregationResult = new AggregationResults<NoteCounter>(listNoteCounter,new Document());
+		when(noteRepository.getNoteCounters()).thenReturn(aggregationResult);
+		
+		//ACT+ASSERT
+		MvcResult result = mockMvc
+				.perform(get("/notes/count"))
+				.andExpect(status().is2xxSuccessful())
+				.andReturn();
+
+		Map<Integer, Integer> listNoteCounterResult = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<Map<Integer, Integer>>() {});
+		assertNotNull(listNoteCounterResult);
+		assertEquals(5, listNoteCounterResult.get(1));
+		assertEquals(8, listNoteCounterResult.get(2));
+	}
 }

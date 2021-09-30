@@ -96,6 +96,12 @@ public class ClientUIController {
 		return "redirect:/patients";
 	}
 
+	/**
+	 * This endpoint returns a web page that displays all notes for a required patient
+	 * @param id the patient id
+	 * @param model to send to Thymeleaf
+	 * @return web page patientNotes
+	 */
 	@GetMapping("/patients/{id}/notes")
 	public String patientNotes(@PathVariable Integer id, Model model){
 
