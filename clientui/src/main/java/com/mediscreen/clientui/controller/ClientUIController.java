@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
+import com.mediscreen.clientui.proxy.MicroserviceDiabeteAssessProxyFeign;
 import com.mediscreen.clientui.proxy.MicroserviceNotesProxyFeign;
 import com.mediscreen.clientui.proxy.MicroservicePatientsProxyFeign;
 import com.mediscreen.common.dto.NoteBean;
@@ -29,6 +29,9 @@ public class ClientUIController {
 
 	@Autowired
 	private MicroserviceNotesProxyFeign noteProxy;
+	
+	@Autowired
+	private MicroserviceDiabeteAssessProxyFeign diabeteAssessProxy;
 
 	@GetMapping("/")
 	public String accueil(Model model){

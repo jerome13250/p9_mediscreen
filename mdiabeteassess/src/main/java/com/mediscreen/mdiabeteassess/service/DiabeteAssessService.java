@@ -34,6 +34,14 @@ public class DiabeteAssessService {
 	@Autowired
 	private MicroserviceNotesProxyFeign noteProxy;
 
+	
+	public String diabeteAssessCalculateByFamilyName(String familyname) {
+		
+		PatientBean patient = patientProxy.getPatientByFamilyName(familyname);
+		
+		return diabeteAssessCalculate(patient.getId());
+	}
+	
 	public String diabeteAssessCalculate(Integer patId) {
 
 		String diabeteAssess;

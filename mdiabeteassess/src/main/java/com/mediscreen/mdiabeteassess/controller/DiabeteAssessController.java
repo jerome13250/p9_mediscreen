@@ -5,19 +5,22 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mediscreen.common.dto.PatientBean;
-import com.mediscreen.mdiabeteassess.proxy.MicroservicePatientsProxyFeign;
 import com.mediscreen.mdiabeteassess.service.DiabeteAssessService;
+
+import io.swagger.annotations.ApiOperation;
 
 @RestController
 public class DiabeteAssessController {
 	
 	@Autowired
-	private MicroservicePatientsProxyFeign patientProxy;
-
-	@Autowired
 	private DiabeteAssessService diabeteAssessService;
 	
+	/**
+	 * Assess diabete for a patient by id
+	 * @param patId the patient id
+	 * @return the assessment for diabete
+	 */
+	@ApiOperation(value = "This endpoint returns the diabete assessment for a patient id.")
 	@PostMapping("/assess/id")
 	public String postAssessById(@RequestParam Integer patId){
 		
@@ -25,12 +28,16 @@ public class DiabeteAssessController {
 		
 	}
 	
+	/**
+	 * Assess diabete for a patient by family name.
+	 * @param familyname the patient family name
+	 * @return the assessment for diabete
+	 */
 	@PostMapping("/assess/familyName")
 	public String postPatientForm(@RequestParam String familyname){
 
-		PatientBean patient = patientProxy.getPatientByFamilyName(familyname);
+		return diabeteAssessService.diabeteAssessCalculateByFamilyName(familyname);
 		
-		return diabeteAssessService.diabeteAssessCalculate(patient.getId());
 	}
 
 }

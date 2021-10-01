@@ -4,7 +4,7 @@
   <interface id="1" language="java" name="com.mediscreen.clientui.proxy.MicroservicePatientsProxyFeign" 
     project="clientui" file="/clientui/src/main/java/com/mediscreen/clientui/proxy/MicroservicePatientsProxyFeign.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="250" y="192"/>    
+    <position height="-1" width="-1" x="137" y="155"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
@@ -14,7 +14,7 @@
   <class id="2" language="java" name="com.mediscreen.mpatient.controller.PatientController" project="mpatient" 
     file="/mpatient/src/main/java/com/mediscreen/mpatient/controller/PatientController.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="246" y="281"/>    
+    <position height="-1" width="-1" x="207" y="444"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
@@ -24,7 +24,7 @@
   <interface id="3" language="java" name="com.mediscreen.mpatient.repository.PatientRepository" project="mpatient" 
     file="/mpatient/src/main/java/com/mediscreen/mpatient/repository/PatientRepository.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="241" y="368"/>    
+    <position height="-1" width="-1" x="206" y="533"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
@@ -33,7 +33,7 @@
   </interface>  
   <class id="4" language="java" name="com.mediscreen.mnote.controller.NoteController" project="mnote" 
     file="/mnote/src/main/java/com/mediscreen/mnote/controller/NoteController.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="474" y="284"/>    
+    <position height="-1" width="-1" x="495" y="458"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
@@ -42,7 +42,7 @@
   </class>  
   <interface id="5" language="java" name="com.mediscreen.mnote.repository.NoteRepository" project="mnote" 
     file="/mnote/src/main/java/com/mediscreen/mnote/repository/NoteRepository.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="476" y="368"/>    
+    <position height="-1" width="-1" x="489" y="542"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
@@ -52,7 +52,7 @@
   <interface id="6" language="java" name="com.mediscreen.clientui.proxy.MicroserviceNotesProxyFeign" project="clientui" 
     file="/clientui/src/main/java/com/mediscreen/clientui/proxy/MicroserviceNotesProxyFeign.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="473" y="197"/>    
+    <position height="-1" width="-1" x="314" y="240"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
@@ -62,51 +62,158 @@
   <class id="7" language="java" name="com.mediscreen.clientui.controller.ClientUIController" project="clientui" 
     file="/clientui/src/main/java/com/mediscreen/clientui/controller/ClientUIController.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="471" y="50"/>    
+    <position height="-1" width="-1" x="234" y="56"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
       <operations public="false" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </class>  
-  <association id="8">    
-    <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="9" name="patientRepository">        
+  <class id="8" language="java" name="com.mediscreen.mdiabeteassess.controller.DiabeteAssessController" 
+    project="mdiabeteassess" 
+    file="/mdiabeteassess/src/main/java/com/mediscreen/mdiabeteassess/controller/DiabeteAssessController.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="760" y="183"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <interface id="9" language="java" name="com.mediscreen.mdiabeteassess.proxy.MicroserviceNotesProxyFeign" 
+    project="mdiabeteassess" 
+    file="/mdiabeteassess/src/main/java/com/mediscreen/mdiabeteassess/proxy/MicroserviceNotesProxyFeign.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="887" y="355"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </interface>  
+  <interface id="10" language="java" name="com.mediscreen.mdiabeteassess.proxy.MicroservicePatientsProxyFeign" 
+    project="mdiabeteassess" 
+    file="/mdiabeteassess/src/main/java/com/mediscreen/mdiabeteassess/proxy/MicroservicePatientsProxyFeign.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="666" y="355"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </interface>  
+  <class id="11" language="java" name="com.mediscreen.mdiabeteassess.service.DiabeteAssessService" 
+    project="mdiabeteassess" 
+    file="/mdiabeteassess/src/main/java/com/mediscreen/mdiabeteassess/service/DiabeteAssessService.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="761" y="263"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <interface id="12" language="java" name="com.mediscreen.clientui.proxy.MicroserviceDiabeteAssessProxyFeign" 
+    project="clientui" 
+    file="/clientui/src/main/java/com/mediscreen/clientui/proxy/MicroserviceDiabeteAssessProxyFeign.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="477" y="157"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </interface>  
+  <association id="13">    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="14" name="patientProxy">        
+        <position height="0" width="0" x="-113" y="-37"/>      
+      </attribute>      
+      <multiplicity id="15" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-113" y="-37"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="16">    
+    <end type="SOURCE" refId="8" navigable="false">      
+      <attribute id="17" name="diabeteAssessService">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="10" minimum="0" maximum="1">        
+      <multiplicity id="18" minimum="0" maximum="1">        
         <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="11" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="19">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="20" name="patientRepository">        
+        <position height="0" width="0" x="-35" y="165"/>      
+      </attribute>      
+      <multiplicity id="21" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-35" y="165"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="3" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="11">    
+  <association id="22">    
     <end type="SOURCE" refId="7" navigable="false">      
-      <attribute id="12" name="patientProxy"/>      
-      <multiplicity id="13" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="1" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="14">    
-    <end type="SOURCE" refId="7" navigable="false">      
-      <attribute id="15" name="noteProxy"/>      
-      <multiplicity id="16" minimum="0" maximum="1"/>    
+      <attribute id="23" name="noteProxy">        
+        <position height="0" width="0" x="-159" y="43"/>      
+      </attribute>      
+      <multiplicity id="24" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-159" y="43"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="6" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="17">    
-    <end type="SOURCE" refId="4" navigable="false">      
-      <attribute id="18" name="noteRepository">        
+  <association id="25">    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="26" name="diabeteAssessProxy"/>      
+      <multiplicity id="27" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="12" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="28">    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="29" name="patientProxy">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="19" minimum="0" maximum="1">        
+      <multiplicity id="30" minimum="0" maximum="1">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
+    <end type="TARGET" refId="10" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="31">    
+    <end type="SOURCE" refId="4" navigable="false">      
+      <attribute id="32" name="noteRepository">        
+        <position height="0" width="0" x="13" y="174"/>      
+      </attribute>      
+      <multiplicity id="33" minimum="0" maximum="1">        
+        <position height="0" width="0" x="13" y="174"/>      
+      </multiplicity>    
+    </end>    
     <end type="TARGET" refId="5" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="34">    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="35" name="noteProxy">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="36" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="9" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
