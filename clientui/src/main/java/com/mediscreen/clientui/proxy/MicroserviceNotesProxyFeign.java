@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.mediscreen.clientui.beans.NoteBean;
+import com.mediscreen.common.dto.NoteBean;
 
 @FeignClient(name = "microservice-notes", url = "${feign.mnote.url}")
 public interface MicroserviceNotesProxyFeign{

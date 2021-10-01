@@ -1,5 +1,7 @@
 package com.mediscreen.mpatient.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -22,4 +24,10 @@ public interface PatientRepository extends JpaRepository<Patient, Integer>{
 			+ "FROM Patient p "
 			+ "WHERE p.given = :firstname AND p.family = :lastname")
     public Boolean existsByFirstNameLastname(@Param("firstname") String firstname, @Param("lastname") String lastname);
+	
+	/**
+	 * derived query that returns first patient found with family name
+	 * @return Patient if found, null otherwise.
+	 */
+	public Patient findFirst1ByFamily(String family);
 }

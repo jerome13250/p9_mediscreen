@@ -25,8 +25,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.mediscreen.clientui.beans.NoteBean;
-import com.mediscreen.clientui.beans.PatientBean;
+import com.mediscreen.common.dto.NoteBean;
+import com.mediscreen.common.dto.PatientBean;
 import com.mediscreen.clientui.proxy.MicroserviceNotesProxyFeign;
 import com.mediscreen.clientui.proxy.MicroservicePatientsProxyFeign;
 

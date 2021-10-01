@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.mediscreen.clientui.beans.PatientBean;
+import com.mediscreen.common.dto.PatientBean;
 
 @FeignClient(name = "microservice-patients", url = "${feign.mpatient.url}")
 public interface MicroservicePatientsProxyFeign{

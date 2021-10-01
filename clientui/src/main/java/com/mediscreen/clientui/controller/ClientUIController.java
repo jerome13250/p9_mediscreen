@@ -15,10 +15,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.mediscreen.clientui.beans.NoteBean;
-import com.mediscreen.clientui.beans.PatientBean;
+
 import com.mediscreen.clientui.proxy.MicroserviceNotesProxyFeign;
 import com.mediscreen.clientui.proxy.MicroservicePatientsProxyFeign;
+import com.mediscreen.common.dto.NoteBean;
+import com.mediscreen.common.dto.PatientBean;
 
 @Controller
 public class ClientUIController {

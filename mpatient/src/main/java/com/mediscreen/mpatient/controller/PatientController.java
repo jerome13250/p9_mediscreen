@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mediscreen.mpatient.exception.BadRequestException;
@@ -22,7 +23,9 @@ import com.mediscreen.mpatient.repository.PatientRepository;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 public class PatientController {
 
@@ -151,4 +154,34 @@ public class PatientController {
 
 		return existPatient;
 	} 
+	
+	/**
+     * returns patient with a specified familyName
+     * note: if familyName is not unique in database it returns the first one.
+     * 
+     * @param familyname the patient family name
+     * @return patient
+	 * @throws PatientNotFoundException if patient is not found
+     */
+    @GetMapping( 
+    		value = "/patients",
+    		params = "familyname" //resolve request mapping "ambiguous" with GetAllPatients()
+    		)
+    @ApiOperation(value = "This endpoint returns a patient from a patient family name.")
+    public Patient getPatientByFamilyName(
+    		@ApiParam(
+					value = "Family name"
+					)
+    		@RequestParam String familyname) throws PatientNotFoundException {
+		
+    	log.info("calling getPatientByFamilyName({})",familyname);
+    	
+    	Patient patient = patientRepository.findFirst1ByFamily(familyname);
+		if(patient==null)  throw new PatientNotFoundException("Le patient correspondant au nom de famille " + familyname + " n'existe pas");
+    	
+		return patient;
+    	
+    }
 }
+
+
