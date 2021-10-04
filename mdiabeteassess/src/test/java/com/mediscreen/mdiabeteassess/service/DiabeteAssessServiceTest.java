@@ -37,7 +37,7 @@ class DiabeteAssessServiceTest {
 
 	@BeforeEach
 	void initialize() {
-		patient1 = new PatientBean(1, "john", "doe", LocalDate.of(2020, 10, 25), "M", "address1", "111-222-333");
+		patient1 = new PatientBean(1, "john", "doe", LocalDate.now().minusYears(40), "M", "address1", "111-222-333");
 		note1 = new NoteBean("mongoid1", 1, "note1 with Anticorps Anticorps Anticorps Anticorps , vertige Vertige");
 		note2 = new NoteBean("mongoid2", 1, "note2 with Anticorps Anticorps , Vertige Vertige Vertige");
 		listNoteBean = new ArrayList<>();
@@ -56,7 +56,7 @@ class DiabeteAssessServiceTest {
 		String result = diabeteAssessService.diabeteAssessCalculate(1);
 
 		//ASSERT:
-		assertEquals("11", result);
+		assertEquals("Patient: john doe(age 40) diabetes assessment is: Early onset", result);
 
 	}
 

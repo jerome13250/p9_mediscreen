@@ -34,6 +34,7 @@
 					<th class="text-left">Last name</th>
 					<th class="text-left d-none d-md-table-cell">Date of birth</th>
 					<th class="text-left">notes</th>
+					<th class="text-left">assess</th>
 					<th class="text-left"></th>
 				</tr>
 			</thead>
@@ -49,6 +50,11 @@
 						 </a>
 					</td>
 					<td>
+						 <a th:href="@{'/patients/{id}/notes'(id=${patient.id})}">
+						 	<img class="mh-40" src="img/assess.png" alt="assess diabete" title="assess diabete" />
+						 </a>
+					</td>
+					<td>
 						<form method="post" action="#" th:action="@{'/patients/delete/{id}'(id=${patient.id})}" 
 							class="form-inline justify-content-end" >
 							<a href="#" class="btn btn-info" role="button" th:href="@{/patientForm(id=${patient.id})}">Update</a>
@@ -56,7 +62,6 @@
 						        Delete
 						    </button>
 						</form>
-
 					</td>
 				</tr>
 			</tbody>
@@ -67,6 +72,8 @@
 	<!-- Footer -->
 	<div th:replace="fragments/general.html :: footer"></div>
 
+	<!-- JavaScript -->
+	<script src="js/custom.js"></script>
 	<script src="/webjars/jquery/3.6.0/jquery.slim.min.js"></script>
 	<script type="text/javascript"
 		src="/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js"></script>

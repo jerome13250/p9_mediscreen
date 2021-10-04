@@ -42,6 +42,11 @@ public class DiabeteAssessService {
 		return diabeteAssessCalculate(patient.getId());
 	}
 	
+	/**
+	 * Assess the diabetes probability and return assessment value as a String
+	 * @param patId the patient id
+	 * @return assessment value as a String
+	 */
 	public String diabeteAssessCalculate(Integer patId) {
 
 		String diabeteAssess;
@@ -53,7 +58,6 @@ public class DiabeteAssessService {
 		String sex = patient.getSex();
 		Integer age = Period.between(patient.getDob(), LocalDate.now()).getYears();
 
-		//Early onset
 		if( 
 				( sex.equals("M") && age<30 && diabeteTriggers >= 5 ) ||
 				( sex.equals("F") && age<30 && diabeteTriggers >= 7) ||
@@ -76,7 +80,8 @@ public class DiabeteAssessService {
 			diabeteAssess = "None";
 		}
 
-		return diabeteAssess;
+		return "Patient: " + patient.getGiven() + " " + patient.getFamily() +
+				"(age " + age + ") diabetes assessment is: " + diabeteAssess;
 
 	}
 
