@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import com.mediscreen.common.dto.PatientBean;
 
 @FeignClient(name = "microservice-patients", url = "${feign.mpatient.url}")
-public interface MicroservicePatientsProxyFeign{
+public interface PatientsProxyFeign{
 
 	/**
 	 * returns list of all patients in database

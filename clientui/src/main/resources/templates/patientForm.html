@@ -87,10 +87,9 @@
 			<div class = "form-group row">
                <div class = "col-sm-10">
                   <button type = "submit" class = "btn btn-primary mr-2">Submit</button>
-                  <a href="#" class="btn btn-danger" role="button" th:href="@{/patients}">Cancel</a>
+                  <a href="#" class="btn btn-danger" role="button" th:href="@{/patients} + ( ${patient.id != null} ? '/'+${patient.id} : '' )">Cancel</a>
                </div>
             </div>
-
 		</form>
 	</div>
 

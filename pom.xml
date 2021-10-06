@@ -27,6 +27,7 @@
 		<module>clientui</module>
 		<module>mpatient</module>
 		<module>mnote</module>
+		<module>mdiabeteassess</module>
 		<module>report</module>
 		<module>common</module>
 	</modules>

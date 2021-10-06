@@ -10,12 +10,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.mediscreen.common.dto.NoteBean;
 import com.mediscreen.common.dto.PatientBean;
-import com.mediscreen.mdiabeteassess.proxy.MicroserviceNotesProxyFeign;
-import com.mediscreen.mdiabeteassess.proxy.MicroservicePatientsProxyFeign;
+import com.mediscreen.mdiabeteassess.proxy.NotesProxyFeign;
+import com.mediscreen.mdiabeteassess.proxy.PatientsProxyFeign;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,19 +30,22 @@ public class DiabeteAssessService {
 
 
 	@Autowired
-	private MicroservicePatientsProxyFeign patientProxy;
+	private PatientsProxyFeign patientProxy;
 
 	@Autowired
-	private MicroserviceNotesProxyFeign noteProxy;
+	private NotesProxyFeign noteProxy;
 
-	
+	@Value("${diabete.assess.regexp}")
+	String regexp;
+
+
 	public String diabeteAssessCalculateByFamilyName(String familyname) {
-		
+
 		PatientBean patient = patientProxy.getPatientByFamilyName(familyname);
-		
+
 		return diabeteAssessCalculate(patient.getId());
 	}
-	
+
 	/**
 	 * Assess the diabetes probability and return assessment value as a String
 	 * @param patId the patient id
@@ -58,45 +62,62 @@ public class DiabeteAssessService {
 		String sex = patient.getSex();
 		Integer age = Period.between(patient.getDob(), LocalDate.now()).getYears();
 
-		if( 
-				( sex.equals("M") && age<30 && diabeteTriggers >= 5 ) ||
-				( sex.equals("F") && age<30 && diabeteTriggers >= 7) ||
-				( age>=30 && diabeteTriggers >= 8)
-				) {
-			diabeteAssess = "Early onset";
+		if( age<30 ) {
+			if ( sex.equals("M") ) {
+				if (diabeteTriggers >= 5) {
+					diabeteAssess = "Early onset";
+				}
+				else if ( diabeteTriggers >= 3 ) {
+					diabeteAssess = "In Danger";
+				}
+				else {
+					diabeteAssess = "None";
+				}
+			}
+			else { //sex=Female
+				if (diabeteTriggers >= 7) {
+					diabeteAssess = "Early onset";
+				}
+				else if ( diabeteTriggers >= 4 ) {
+					diabeteAssess = "In Danger";
+				}
+				else {
+					diabeteAssess = "None";
+				}
+			}
 		}
-		else if(
-				( sex.equals("M") && age<30 && diabeteTriggers >= 3 ) ||
-				( sex.equals("F") && age<30 && diabeteTriggers >= 4) ||
-				( age>=30 && diabeteTriggers >= 6)
-				) {
-			diabeteAssess = "In Danger";
-		}
-		else if( age>=30 && diabeteTriggers >= 2 ) 
-		{
-			diabeteAssess = "Borderline";
-		}
-		else {
-			diabeteAssess = "None";
+		else { //age>=30
+			if (diabeteTriggers >= 8) {
+				diabeteAssess = "Early onset";
+			}
+			else if ( diabeteTriggers >= 6 ) {
+				diabeteAssess = "In Danger";
+			}
+			else if ( diabeteTriggers >= 2 ) {
+				diabeteAssess = "Borderline";
+			}
+			else {
+				diabeteAssess = "None";
+			}
 		}
 
+
+
 		return "Patient: " + patient.getGiven() + " " + patient.getFamily() +
-				"(age " + age + ") diabetes assessment is: " + diabeteAssess;
+				" (age " + age + ") diabetes assessment is: " + diabeteAssess;
 
 	}
 
 
 	private Integer diabeteTriggersCount (List<NoteBean> listNoteBean) {
 
+
 		Integer counter = 0;
 
 		// Use Matcher class of java.util.regex
 		// to match the character
 		Pattern p = Pattern.compile(
-				"Hémoglobine A1C|Microalbumine|Taille|Poids|Fumeur|Anormal|Cholestérol|Vertige|Rechute|Réaction|Anticorps"
-				//en anglais:
-				+"|Hemoglobin A1C|Height|Weight|Smoker|Abnormal|Cholesterol|Dizziness|relapse|Antibodies|Reaction"
-				,
+				regexp,
 				Pattern.CASE_INSENSITIVE);
 
 		for (NoteBean note : listNoteBean) {
@@ -115,4 +136,5 @@ public class DiabeteAssessService {
 		return counter;
 
 	}
+
 }

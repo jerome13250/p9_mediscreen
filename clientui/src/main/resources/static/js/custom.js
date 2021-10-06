@@ -1,10 +1,34 @@
 /**
- * 
+ * This is script to access to diabete assessment with a fetch in patientNotes.html
  */
- 
-const elt = document.getElementById('mon-lien');    // On récupère l'élément sur lequel on veut détecter le clic
-	elt.addEventListener('click', function() {          // On écoute l'événement click
-    elt.innerHTML = "C'est cliqué !";               // On change le contenu de notre élément pour afficher "C'est cliqué !"
-});
 
-alert("I'm active");
+//URL structure: <protocol>//<hostname>:<port>/<pathname><search><hash>
+//remove search and hash from url:
+ let url = window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + window.location.pathname + "/diabeteAssess";
+ console.log("url : " + url);
+ 
+ 
+ function askDiabeteAssess() {
+  fetch(url)
+  .then(function(res) {
+    if (res.ok) {
+		return res.json();
+    }
+  })
+  .then(function(value) {
+    document
+        .getElementById("result-diabeteassess")
+        .innerText = value.message;
+  })
+  .catch(function(err) {
+	let errorMsg = "Une erreur est survenue : " + err.message;
+    console.log(errorMsg);
+    document
+        .getElementById("result-diabeteassess")
+        .innerText = errorMsg;
+  });
+}
+
+document
+  .getElementById("ask-diabeteassess")
+  .addEventListener("click", askDiabeteAssess);

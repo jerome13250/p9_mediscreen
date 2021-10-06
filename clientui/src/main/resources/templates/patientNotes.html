@@ -16,18 +16,88 @@
 	<div th:replace="fragments/general.html :: navigation"></div>
 
 	<div class="container">
-		<div class="row py-2">
+		<div class="row">
+			<!-- PATIENT INFO -->
+			<div class="form-group col-md-6 ">
+				<h2 class="mt-4">Patient info</h2>
+				<hr />
+
+				<div class="form-group row ">
+					<label class="col-md-4 col-form-label">First name</label>
+					<div class="col-md-8">
+						<input th:field="${patient.given}" type="text"
+							class="form-control" readonly>
+					</div>
+				</div>
+				<div class="form-group row ">
+					<label class="col-md-4 col-form-label">Last name</label>
+					<div class="col-md-8">
+						<input th:field="${patient.family}" type="text"
+							class="form-control" readonly>
+					</div>
+				</div>
+				<div class="form-group row ">
+					<label class="col-md-4 col-form-label">Date of birth</label>
+					<div class="col-md-8">
+						<input th:field="${patient.dob}" type="date" class="form-control"
+							readonly>
+					</div>
+				</div>
+				<div class="form-group row ">
+					<label class="col-md-4 col-form-label mr-0">Sex</label>
+					<div class="col-md-8">
+						<input th:field="${patient.sex}" type="radio" name="sex" value="M"
+							id="male" readonly /> <label for="male">Male</label> <input
+							th:field="${patient.sex}" type="radio" name="sex" value="F"
+							id="female" readonly /> <label for="female">Female</label>
+					</div>
+				</div>
+				<div class="form-group row ">
+					<label class="col-md-4 col-form-label">Address</label>
+					<div class="col-md-8">
+						<input th:field="${patient.address}" type="text"
+							class="form-control" readonly>
+					</div>
+				</div>
+				<div class="form-group row ">
+					<label class="col-md-4 col-form-label">Phone</label>
+					<div class="col-md-8">
+						<input th:field="${patient.phone}" type="text"
+							class="form-control" readonly>
+					</div>
+				</div>
+				<div class="form-group row">
+					<div class="col">
+						<a href="#" class="btn btn-info" role="button"
+							th:href="@{/patientForm(id=${patient.id})}">Update</a>
+					</div>
+				</div>
+			</div>
+
+			<!-- DIABETE ASSESS -->
+			<div class="form-group col-md-6 ">
+				<h2 class="mt-4">Diabetes Assessment</h2>
+				<hr />
+				<div class="form-group row justify-content-center">
+					<a href="#" class="btn btn-info my-1" role="button" id="ask-diabeteassess">Assess !</a>
+				</div>
+				<div class="form-group row">
+					<textarea id="result-diabeteassess" class="form-control" readonly></textarea>
+				</div>
+
+			</div>
+		</div>
+
+		<!-- DOCTOR NOTES -->
+		<div class="row py-2" id="notes">
 			<div class="col-6 col-sm-9">
-				<h2>Notes for patient: 
-					<span class="h3 text-success font-weight-bold" th:text="${patient.given} + ' ' + ${patient.family}"></span>
-				</h2>
+				<h2>Notes</h2>
 			</div>
 			<div class="col-6 col-sm-3 text-right">
 				<a href="#" class="btn btn-success btn-lg" role="button"
 					th:href="@{/noteForm(patId=${patient.id})}">Create note</a>
 			</div>
 		</div>
-
 
 		<table class="table table-striped">
 			<thead class="thead-light">
@@ -40,14 +110,12 @@
 				<tr th:each="patientNote : ${listNotes}">
 					<td class="whitespaceprewrap" th:text="${patientNote.note}"></td>
 					<td>
-						<form method="post" action="#" 
-							th:action="@{'/patients/{patId}/notes/delete/{id}'(patId=${patientNote.patId},id=${patientNote.id})}" 
-							class="form-inline justify-content-end" >
-							<a href="#" class="btn btn-info" role="button" 
+						<form method="post" action="#"
+							th:action="@{'/patients/{patId}/notes/delete/{id}'(patId=${patientNote.patId},id=${patientNote.id})}"
+							class="form-inline justify-content-end">
+							<a href="#" class="btn btn-info" role="button"
 								th:href="@{/noteForm(id=${patientNote.id},patId=${patientNote.patId})}">Update</a>
-						    <button type="submit" class="btn btn-danger">
-						        Delete
-						    </button>
+							<button type="submit" class="btn btn-danger">Delete</button>
 						</form>
 					</td>
 				</tr>
@@ -59,6 +127,8 @@
 	<!-- Footer -->
 	<div th:replace="fragments/general.html :: footer"></div>
 
+	<!-- JAVASCRIPT -->
+	<script src="/js/custom.js"></script>
 	<script src="/webjars/jquery/3.6.0/jquery.slim.min.js"></script>
 	<script type="text/javascript"
 		src="/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js"></script>

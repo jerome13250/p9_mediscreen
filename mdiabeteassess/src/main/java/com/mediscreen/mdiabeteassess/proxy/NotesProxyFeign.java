@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import com.mediscreen.common.dto.NoteBean;
 
 @FeignClient(name = "microservice-notes", url = "${feign.mnote.url}")
-public interface MicroserviceNotesProxyFeign{
+public interface NotesProxyFeign{
 
     /**
 	 * Get list of notes with a specified patient id

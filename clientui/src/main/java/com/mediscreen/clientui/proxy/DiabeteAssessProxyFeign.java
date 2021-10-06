@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @FeignClient(name = "microservice-diabeteassess", url = "${feign.diabeteassess.url}")
-public interface MicroserviceDiabeteAssessProxyFeign{
+public interface DiabeteAssessProxyFeign{
 
 	/**
 	 * Assess diabete for a patient by id

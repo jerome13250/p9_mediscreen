@@ -27,8 +27,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.mediscreen.common.dto.NoteBean;
 import com.mediscreen.common.dto.PatientBean;
-import com.mediscreen.clientui.proxy.MicroserviceNotesProxyFeign;
-import com.mediscreen.clientui.proxy.MicroservicePatientsProxyFeign;
+import com.mediscreen.clientui.proxy.NotesProxyFeign;
+import com.mediscreen.clientui.proxy.PatientsProxyFeign;
 
 @WebMvcTest(controllers = ClientUIController.class) 
 class ClientUIControllerTest {
@@ -36,9 +36,9 @@ class ClientUIControllerTest {
 	@Autowired
 	private MockMvc mockMvc;
 	@MockBean
-	private MicroservicePatientsProxyFeign patientsProxy;
+	private PatientsProxyFeign patientsProxy;
 	@MockBean
-	private MicroserviceNotesProxyFeign notesProxy;
+	private NotesProxyFeign notesProxy;
 
 	PatientBean patientBean1;
 	PatientBean patientBean2;
@@ -136,7 +136,7 @@ class ClientUIControllerTest {
 	}
 
 	@Test
-	void PostPatientForm_UpdateNewPatient() throws Exception {
+	void PostPatientForm_UpdatePatient() throws Exception {
 		//ARRANGE
 
 		//ACT+ASSERT:
@@ -151,7 +151,7 @@ class ClientUIControllerTest {
 				.param("phone", "111-222-333")
 				)
 		.andExpect(status().is3xxRedirection())
-		.andExpect(redirectedUrl("/patients"))
+		.andExpect(redirectedUrl("/patients/1"))
 		;
 
 		//check user create:
@@ -243,7 +243,7 @@ class ClientUIControllerTest {
 		when(notesProxy.getListOfNotesByPatientId(1)).thenReturn(listNoteBean);
 
 		//ACT+ASSERT:
-		mockMvc.perform(get("/patients/1/notes"))
+		mockMvc.perform(get("/patients/1"))
 		.andExpect(status().isOk())
 		.andExpect(view().name("patientNotes"))
 		.andExpect(model().size(2))

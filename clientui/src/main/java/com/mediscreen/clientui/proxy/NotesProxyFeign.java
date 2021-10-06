@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import com.mediscreen.common.dto.NoteBean;
 
 @FeignClient(name = "microservice-notes", url = "${feign.mnote.url}")
-public interface MicroserviceNotesProxyFeign{
+public interface NotesProxyFeign{
 
 	/**
 	 * returns list of all notes in database

@@ -15,9 +15,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.mediscreen.clientui.proxy.MicroserviceDiabeteAssessProxyFeign;
-import com.mediscreen.clientui.proxy.MicroserviceNotesProxyFeign;
-import com.mediscreen.clientui.proxy.MicroservicePatientsProxyFeign;
+import com.mediscreen.clientui.proxy.NotesProxyFeign;
+import com.mediscreen.clientui.proxy.PatientsProxyFeign;
 import com.mediscreen.common.dto.NoteBean;
 import com.mediscreen.common.dto.PatientBean;
 
@@ -25,13 +24,10 @@ import com.mediscreen.common.dto.PatientBean;
 public class ClientUIController {
 
 	@Autowired
-	private MicroservicePatientsProxyFeign patientProxy;
+	private PatientsProxyFeign patientProxy;
 
 	@Autowired
-	private MicroserviceNotesProxyFeign noteProxy;
-	
-	@Autowired
-	private MicroserviceDiabeteAssessProxyFeign diabeteAssessProxy;
+	private NotesProxyFeign noteProxy;
 
 	@GetMapping("/")
 	public String accueil(Model model){
@@ -92,12 +88,14 @@ public class ClientUIController {
 
 		if (patient.getId() == null) {
 			patientProxy.createPatient(patient);
+			return "redirect:/patients";
 		}
 		else {
 			patientProxy.updatePatient(patient);
+			return "redirect:/patients/"+patient.getId();
 		}
 
-		return "redirect:/patients";
+		
 	}
 
 	/**
@@ -106,7 +104,7 @@ public class ClientUIController {
 	 * @param model to send to Thymeleaf
 	 * @return web page patientNotes
 	 */
-	@GetMapping("/patients/{id}/notes")
+	@GetMapping("/patients/{id}")
 	public String patientNotes(@PathVariable Integer id, Model model){
 
 		PatientBean patient =  patientProxy.getPatient(id);
@@ -155,6 +153,17 @@ public class ClientUIController {
 
 	//Use POST since browsers do not support PUT and DELETE via form submission
 	//https://code.i-harness.com/en/q/1007044
+	/**
+	 * Endpoint to delete a note.
+	 * <p>
+	 * note : in the UI this delete is done in the patient page, this means that we need to keep patId to be able to
+	 * redirect to the correct patient page.
+	 * </p>
+	 * 
+	 * @param patId the patient id
+	 * @param id the note id
+	 * @return redirect to the patient page
+	 */
 	@PostMapping("/patients/{patId}/notes/delete/{id}")
 	public String deleteNote(@PathVariable Integer patId, @PathVariable String id){
 
