@@ -148,7 +148,7 @@ public class ClientUIController {
 			noteProxy.updateNote(note);
 		}
 
-		return "redirect:/patients/" + note.getPatId() + "/notes";
+		return "redirect:/patients/" + note.getPatId();
 	}
 
 	//Use POST since browsers do not support PUT and DELETE via form submission
@@ -168,6 +168,6 @@ public class ClientUIController {
 	public String deleteNote(@PathVariable Integer patId, @PathVariable String id){
 
 		noteProxy.deleteNote(id);
-		return "redirect:/patients/" + patId + "/notes";
+		return "redirect:/patients/" + patId;
 	}
 }

@@ -12,13 +12,13 @@
   fetch(url)
   .then(function(res) {
     if (res.ok) {
-		return res.json();
+		return res.text();
     }
   })
   .then(function(value) {
     document
         .getElementById("result-diabeteassess")
-        .innerText = value.message;
+        .innerText = value;
   })
   .catch(function(err) {
 	let errorMsg = "Une erreur est survenue : " + err.message;

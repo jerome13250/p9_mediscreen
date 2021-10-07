@@ -23,9 +23,7 @@ import com.mediscreen.mpatient.repository.PatientRepository;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @RestController
 public class PatientController {
 
@@ -33,17 +31,33 @@ public class PatientController {
 	PatientRepository patientRepository;
 
 	/**
-	 * endpoint that returns list of all patients in database
-	 * @return all patients
-	 */
-	@ApiOperation(value = "This endpoint returns all patients.")
-	@GetMapping(value = "/patients")
-	public List<Patient> GetAllPatients() {
-
-		List<Patient> listePatientdata = patientRepository.findAll();
-		return listePatientdata;
-	}
-
+     * return all patients if familyName is not provided, otherwise return all patients for a specified familyName
+     * 
+     * @param familyname the patient family name
+     * @return patient
+	 * @throws PatientNotFoundException if patient is not found
+     */
+    @GetMapping( value = "/patients"  )
+    @ApiOperation(value = "This endpoint returns all patients if familyName is not provided,"
+    		+ " otherwise return all patients for a specified familyName.")
+    public List<Patient> getPatients(
+    		@ApiParam(
+					value = "Family name"
+					)
+    		@RequestParam(required = false) String familyname) throws PatientNotFoundException {
+    	
+    	//familyName not provided, return all patients
+    	if (familyname == null) {
+    		List<Patient> listePatient = patientRepository.findAll();
+    		return listePatient;
+    	}
+    	else {
+    		List<Patient> listePatient = patientRepository.findByFamily(familyname);
+    		if(listePatient.isEmpty())  throw new PatientNotFoundException("Le patient correspondant au nom de famille " + familyname + " n'existe pas");
+    		return listePatient;
+    	}
+    }
+    
 	/**
 	 * endpoint that returns patient with a specified id
 	 * @param id
@@ -64,7 +78,7 @@ public class PatientController {
 
 		return patient;
 	}
-
+    
 	/**
 	 * endpoint that updates patient
 	 * <p>
@@ -155,33 +169,7 @@ public class PatientController {
 		return existPatient;
 	} 
 	
-	/**
-     * returns patient with a specified familyName
-     * note: if familyName is not unique in database it returns the first one.
-     * 
-     * @param familyname the patient family name
-     * @return patient
-	 * @throws PatientNotFoundException if patient is not found
-     */
-    @GetMapping( 
-    		value = "/patients",
-    		params = "familyname" //resolve request mapping "ambiguous" with GetAllPatients()
-    		)
-    @ApiOperation(value = "This endpoint returns a patient from a patient family name.")
-    public Patient getPatientByFamilyName(
-    		@ApiParam(
-					value = "Family name"
-					)
-    		@RequestParam String familyname) throws PatientNotFoundException {
-		
-    	log.info("calling getPatientByFamilyName({})",familyname);
-    	
-    	Patient patient = patientRepository.findFirst1ByFamily(familyname);
-		if(patient==null)  throw new PatientNotFoundException("Le patient correspondant au nom de famille " + familyname + " n'existe pas");
-    	
-		return patient;
-    	
-    }
+
 }
 
 

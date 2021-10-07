@@ -56,10 +56,11 @@ services:
     ports:
       - "8082:8082"
       
-  clientui:
+      
+  mdiabeteassess:
     build:
       context: .
-      target: clientui
+      target: mdiabeteassess
     depends_on:
       - mpatient
       - mnote
@@ -67,6 +68,22 @@ services:
     environment:
       FEIGN_MPATIENT_URL: http://mpatient:8081
       FEIGN_MNOTE_URL: http://mnote:8082
+    ports:
+      - "8083:8083"
+      
+  clientui:
+    build:
+      context: .
+      target: clientui
+    depends_on:
+      - mpatient
+      - mnote
+      - mdiabeteassess
+    restart: always
+    environment:
+      FEIGN_MPATIENT_URL: http://mpatient:8081
+      FEIGN_MNOTE_URL: http://mnote:8082
+      FEIGN_MDIABETEASSESS_URL: http://mdiabeteassess:8083
     ports:
       - "8080:8080"
 

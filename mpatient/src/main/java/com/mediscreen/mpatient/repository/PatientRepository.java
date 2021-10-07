@@ -26,8 +26,8 @@ public interface PatientRepository extends JpaRepository<Patient, Integer>{
     public Boolean existsByFirstNameLastname(@Param("firstname") String firstname, @Param("lastname") String lastname);
 	
 	/**
-	 * derived query that returns first patient found with family name
-	 * @return Patient if found, null otherwise.
+	 * derived query that returns patients found with family name
+	 * @return List of patients if found, empty list otherwise.
 	 */
-	public Patient findFirst1ByFamily(String family);
+	public List<Patient> findByFamily(String family);
 }

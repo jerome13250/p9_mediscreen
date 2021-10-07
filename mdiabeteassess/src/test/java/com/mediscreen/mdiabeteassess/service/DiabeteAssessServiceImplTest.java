@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -21,10 +20,10 @@ import com.mediscreen.mdiabeteassess.proxy.NotesProxyFeign;
 import com.mediscreen.mdiabeteassess.proxy.PatientsProxyFeign;
 
 @ExtendWith(MockitoExtension.class)
-class DiabeteAssessServiceTest {
+class DiabeteAssessServiceImplTest {
 
 	@InjectMocks
-	DiabeteAssessService diabeteAssessService;
+	DiabeteAssessServiceImpl diabeteAssessServiceImpl;
 
 	@Mock
 	private PatientsProxyFeign patientProxy;
@@ -38,7 +37,7 @@ class DiabeteAssessServiceTest {
 
 	@BeforeEach
 	void initialize() {
-		diabeteAssessService.regexp = "Anticorps|Vertige";
+		diabeteAssessServiceImpl.regexp = "Anticorps|Vertige";
 		listNoteBean = new ArrayList<>();
 		
 	}
@@ -56,7 +55,7 @@ class DiabeteAssessServiceTest {
 		when(noteProxy.getListOfNotesByPatientId(1)).thenReturn(listNoteBean);		
 
 		//ACT:
-		String result = diabeteAssessService.diabeteAssessCalculate(1);
+		String result = diabeteAssessServiceImpl.diabeteAssessCalculate(1);
 
 		//ASSERT:
 		assertEquals("Patient: firstname lastname (age 20) diabetes assessment is: Early onset", result);
@@ -74,7 +73,7 @@ class DiabeteAssessServiceTest {
 		when(noteProxy.getListOfNotesByPatientId(1)).thenReturn(listNoteBean);		
 
 		//ACT:
-		String result = diabeteAssessService.diabeteAssessCalculate(1);
+		String result = diabeteAssessServiceImpl.diabeteAssessCalculate(1);
 
 		//ASSERT:
 		assertEquals("Patient: firstname lastname (age 20) diabetes assessment is: In Danger", result);
@@ -92,7 +91,7 @@ class DiabeteAssessServiceTest {
 		when(noteProxy.getListOfNotesByPatientId(1)).thenReturn(listNoteBean);		
 
 		//ACT:
-		String result = diabeteAssessService.diabeteAssessCalculate(1);
+		String result = diabeteAssessServiceImpl.diabeteAssessCalculate(1);
 
 		//ASSERT:
 		assertEquals("Patient: firstname lastname (age 29) diabetes assessment is: None", result);
@@ -110,7 +109,7 @@ class DiabeteAssessServiceTest {
 		when(noteProxy.getListOfNotesByPatientId(1)).thenReturn(listNoteBean);		
 
 		//ACT:
-		String result = diabeteAssessService.diabeteAssessCalculate(1);
+		String result = diabeteAssessServiceImpl.diabeteAssessCalculate(1);
 
 		//ASSERT:
 		assertEquals("Patient: firstname lastname (age 20) diabetes assessment is: Early onset", result);
@@ -128,7 +127,7 @@ class DiabeteAssessServiceTest {
 		when(noteProxy.getListOfNotesByPatientId(1)).thenReturn(listNoteBean);		
 
 		//ACT:
-		String result = diabeteAssessService.diabeteAssessCalculate(1);
+		String result = diabeteAssessServiceImpl.diabeteAssessCalculate(1);
 
 		//ASSERT:
 		assertEquals("Patient: firstname lastname (age 20) diabetes assessment is: In Danger", result);
@@ -146,7 +145,7 @@ class DiabeteAssessServiceTest {
 		when(noteProxy.getListOfNotesByPatientId(1)).thenReturn(listNoteBean);		
 
 		//ACT:
-		String result = diabeteAssessService.diabeteAssessCalculate(1);
+		String result = diabeteAssessServiceImpl.diabeteAssessCalculate(1);
 
 		//ASSERT:
 		assertEquals("Patient: firstname lastname (age 29) diabetes assessment is: None", result);
@@ -164,7 +163,7 @@ class DiabeteAssessServiceTest {
 		when(noteProxy.getListOfNotesByPatientId(1)).thenReturn(listNoteBean);		
 
 		//ACT:
-		String result = diabeteAssessService.diabeteAssessCalculate(1);
+		String result = diabeteAssessServiceImpl.diabeteAssessCalculate(1);
 
 		//ASSERT:
 		assertEquals("Patient: firstname lastname (age 31) diabetes assessment is: Early onset", result);
@@ -182,7 +181,7 @@ class DiabeteAssessServiceTest {
 		when(noteProxy.getListOfNotesByPatientId(1)).thenReturn(listNoteBean);		
 
 		//ACT:
-		String result = diabeteAssessService.diabeteAssessCalculate(1);
+		String result = diabeteAssessServiceImpl.diabeteAssessCalculate(1);
 
 		//ASSERT:
 		assertEquals("Patient: firstname lastname (age 31) diabetes assessment is: In Danger", result);
@@ -200,7 +199,7 @@ class DiabeteAssessServiceTest {
 		when(noteProxy.getListOfNotesByPatientId(1)).thenReturn(listNoteBean);		
 
 		//ACT:
-		String result = diabeteAssessService.diabeteAssessCalculate(1);
+		String result = diabeteAssessServiceImpl.diabeteAssessCalculate(1);
 
 		//ASSERT:
 		assertEquals("Patient: firstname lastname (age 31) diabetes assessment is: Borderline", result);
@@ -218,7 +217,7 @@ class DiabeteAssessServiceTest {
 		when(noteProxy.getListOfNotesByPatientId(1)).thenReturn(listNoteBean);	
 
 		//ACT:
-		String result = diabeteAssessService.diabeteAssessCalculate(1);
+		String result = diabeteAssessServiceImpl.diabeteAssessCalculate(1);
 
 		//ASSERT:
 		assertEquals("Patient: firstname lastname (age 31) diabetes assessment is: None", result);
@@ -228,7 +227,9 @@ class DiabeteAssessServiceTest {
 	void test_diabeteAssessCalculateByFamilyName() {
 		//ARRANGE:
 		patient1 = new PatientBean(1, "firstname", "lastname", LocalDate.now().minusYears(20), "M", "address1", "111-222-333");
-		when(patientProxy.getPatientByFamilyName("lastname")).thenReturn(patient1);
+		List<PatientBean> listPatientBean = new ArrayList<>();
+		listPatientBean.add(patient1);
+		when(patientProxy.getPatients("lastname")).thenReturn(listPatientBean);
 		note1 = new NoteBean("mongoid1", 1, "note1 with Anticorps Anticorps Anticorps Anticorps , vertige Vertige");
 		note2 = new NoteBean("mongoid2", 1, "note2 with Anticorps Anticorps");
 		listNoteBean.add(note1);
@@ -237,7 +238,7 @@ class DiabeteAssessServiceTest {
 		when(noteProxy.getListOfNotesByPatientId(1)).thenReturn(listNoteBean);
 
 		//ACT:
-		String result = diabeteAssessService.diabeteAssessCalculateByFamilyName("lastname");
+		String result = diabeteAssessServiceImpl.diabeteAssessCalculateByFamilyName("lastname");
 
 		//ASSERT:
 		assertEquals("Patient: firstname lastname (age 20) diabetes assessment is: Early onset", result);

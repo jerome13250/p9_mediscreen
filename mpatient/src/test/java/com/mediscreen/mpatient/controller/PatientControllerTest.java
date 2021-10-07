@@ -272,4 +272,35 @@ class PatientControllerTest {
 		assertEquals(Boolean.FALSE,booleanResult);
 	}
 
+	@Test
+	void getPatientByFamilyName_shouldSucceed() throws Exception {
+		//ARRANGE
+		List<Patient> listPatient = new ArrayList<>();
+		listPatient.add(patient1);
+		when(patientRepository.findByFamily("doe")).thenReturn(listPatient);
+
+		//ACT+ASSERT
+		MvcResult result = mockMvc
+				.perform(get("/patients?familyname=doe"))
+				.andExpect(status().is2xxSuccessful())
+				.andReturn();
+
+		List<Patient> listpatientResult = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<List<Patient>>() {});
+		assertNotNull(listpatientResult);
+		assertEquals("john", listpatientResult.get(0).getGiven());
+		assertEquals("doe", listpatientResult.get(0).getFamily());
+	}
+
+	@Test
+	void getPatientByFamilyName_IsNotFoundExpected() throws Exception {
+		//ARRANGE
+		when(patientRepository.findByFamily("doe")).thenReturn(new ArrayList<>());
+
+		//ACT+ASSERT
+		mockMvc.perform(get("/patients?familyname=doe"))
+		.andExpect(status().isNotFound())
+		.andExpect(result -> assertTrue(result.getResolvedException() instanceof PatientNotFoundException));
+	}
+
+	
 }

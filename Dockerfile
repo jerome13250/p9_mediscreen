@@ -31,9 +31,25 @@ RUN mkdir /tmp/app
 # copy JAR into image
 COPY ./mnote/target/mnote-0.0.1-SNAPSHOT.jar /tmp/app
 #api port
-EXPOSE 8081
+EXPOSE 8082
 # run java app:
 CMD java -jar /tmp/app/mnote-0.0.1-SNAPSHOT.jar
+
+###############################
+#microservice mdiabeteassess
+###############################
+# Alpine Linux with OpenJDK JRE
+FROM openjdk:8-jre-alpine AS mdiabeteassess
+# Install curl for healthcheck
+RUN apk --no-cache add curl
+# Add folder :
+RUN mkdir /tmp/app
+# copy JAR into image
+COPY ./mdiabeteassess/target/mdiabeteassess-0.0.1-SNAPSHOT.jar /tmp/app
+#api port
+EXPOSE 8083
+# run java app:
+CMD java -jar /tmp/app/mdiabeteassess-0.0.1-SNAPSHOT.jar
 
 ###########################
 #Client UI
@@ -47,6 +63,6 @@ RUN mkdir /tmp/app
 # copy JAR into image
 COPY ./clientui/target/clientui-0.0.1-SNAPSHOT.jar /tmp/app
 #api port
-EXPOSE 8081
+EXPOSE 8080
 # run java app:
 CMD java -jar /tmp/app/clientui-0.0.1-SNAPSHOT.jar

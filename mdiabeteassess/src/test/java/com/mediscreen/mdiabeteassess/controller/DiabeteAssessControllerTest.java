@@ -17,17 +17,17 @@ import com.mediscreen.mdiabeteassess.service.DiabeteAssessService;
 
 
 @WebMvcTest(controllers = DiabeteAssessController.class) 
-public class DiabeteAssessControllerTest {
+class DiabeteAssessControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;
 	@MockBean
-	private DiabeteAssessService diabeteAssessService;
+	private DiabeteAssessService diabeteAssessServiceImpl;
 	
 	@Test
 	void postAssessById() throws Exception {
 		//ARRANGE
-		when(diabeteAssessService.diabeteAssessCalculate(1)).thenReturn("test string");
+		when(diabeteAssessServiceImpl.diabeteAssessCalculate(1)).thenReturn("test string");
 
 		//ACT+ASSERT
 		MvcResult result = mockMvc
@@ -45,7 +45,7 @@ public class DiabeteAssessControllerTest {
 	@Test
 	void postAssessByFamilyName() throws Exception {
 		//ARRANGE
-		when(diabeteAssessService.diabeteAssessCalculateByFamilyName("name")).thenReturn("test string");
+		when(diabeteAssessServiceImpl.diabeteAssessCalculateByFamilyName("name")).thenReturn("test string");
 
 		//ACT+ASSERT
 		MvcResult result = mockMvc

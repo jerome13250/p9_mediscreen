@@ -1,11 +1,15 @@
 package com.mediscreen.mdiabeteassess.proxy;
 
+import java.util.List;
+
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.mediscreen.common.dto.PatientBean;
+
+import io.swagger.annotations.ApiOperation;
 
 @FeignClient(name = "microservice-patients", url = "${feign.mpatient.url}")
 public interface PatientsProxyFeign{
@@ -18,14 +22,16 @@ public interface PatientsProxyFeign{
     @GetMapping( value = "/patients/{id}")
     public PatientBean getPatient(@PathVariable int id);
 
-	/**
-     * returns patient with a specified familyName
-     * note: if familyName is not unique in database it returns the first one.
+    /**
+     * return all patients if familyName is not provided, otherwise return all patients for a specified familyName
      * 
-     * @param id the patient id
+     * @param familyname the patient family name
      * @return patient
+	 * @throws PatientNotFoundException if patient is not found
      */
-    @GetMapping( value = "/patients")
-    public PatientBean getPatientByFamilyName(@RequestParam String familyname);
+    @GetMapping( value = "/patients"  )
+    @ApiOperation(value = "This endpoint returns all patients if familyName is not provided,"
+    		+ " otherwise return all patients for a specified familyName.")
+    public List<PatientBean> getPatients(@RequestParam(required = false) String familyname);
     
 }

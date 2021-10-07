@@ -301,7 +301,7 @@ class ClientUIControllerTest {
 				.param("note", "note1")
 				)
 		.andExpect(status().is3xxRedirection())
-		.andExpect(redirectedUrl("/patients/1/notes"))
+		.andExpect(redirectedUrl("/patients/1"))
 		;
 
 		//check note update:
@@ -324,7 +324,7 @@ class ClientUIControllerTest {
 				.param("note", "note1")
 				)
 		.andExpect(status().is3xxRedirection())
-		.andExpect(redirectedUrl("/patients/1/notes"))
+		.andExpect(redirectedUrl("/patients/1"))
 		;
 
 		//check note update:
@@ -358,7 +358,7 @@ class ClientUIControllerTest {
 		//ACT
 		mockMvc.perform(post("/patients/1/notes/delete/mongoid1"))
 		.andExpect(status().is3xxRedirection())
-		.andExpect(redirectedUrl("/patients/1/notes"))
+		.andExpect(redirectedUrl("/patients/1"))
 		;
 
 		//check note delete:
