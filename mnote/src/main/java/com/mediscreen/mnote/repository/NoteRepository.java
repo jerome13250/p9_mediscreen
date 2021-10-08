@@ -20,7 +20,7 @@ public interface NoteRepository extends MongoRepository<Note,String>{
 	/**
 	 * This is a specific aggregation query that allows to count notes per patient.
 	 * Note: This could be easily done by doing a noteRepository.findAll to create ORM on all notes and count them in an
-	 * ArrayList<Note> but it would be memory inefficient.
+	 * ArrayList of notes but it would be memory inefficient.
 	 * 
 	 * @return a AggregationResults of NoteCounter
 	 */

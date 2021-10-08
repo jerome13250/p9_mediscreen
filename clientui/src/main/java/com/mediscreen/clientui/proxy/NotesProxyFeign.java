@@ -33,7 +33,7 @@ public interface NotesProxyFeign{
 
     /**
      * updates note with a specified id
-     * @param id the note id
+     * @param updatedNote the updated note
      * @return updated note
      */
     @PutMapping( value = "/notes")
@@ -41,6 +41,7 @@ public interface NotesProxyFeign{
     
     /**
      * creates note.
+     * @param newNote the note to create
      * @return created note with id in database.
      */
     @PostMapping( value = "/notes/add")

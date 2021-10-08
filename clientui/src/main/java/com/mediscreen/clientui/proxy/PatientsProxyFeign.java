@@ -32,14 +32,15 @@ public interface PatientsProxyFeign{
 
     /**
      * updates patient with a specified id
-     * @param id the patient id
-     * @return updated patient
+     * @param updatedPatient the patient to update
+     * @return result updated patient
      */
     @PutMapping( value = "/patients")
-    public PatientBean updatePatient(@RequestBody PatientBean newPatient);
+    public PatientBean updatePatient(@RequestBody PatientBean updatedPatient);
     
     /**
      * creates patient.
+     * @param newPatient the patient to create
      * @return created patient with id in database.
      */
     @PostMapping( value = "/patients/add")
@@ -47,15 +48,17 @@ public interface PatientsProxyFeign{
 
     /**
      * delete patient.
+     * @param id the patient id
      */
     @DeleteMapping( value = "/patients/delete/{id}")
     public void deletePatient(@PathVariable Integer id);
     
     /**
      * checks if a patient exists by firstname+lastname.
+     * @param patient the patient to check if exists.
      * @return boolean true if patient exists.
      */
     @PostMapping( value = "/patients/exist")
-    public Boolean existPatient(@RequestBody PatientBean newPatient);
+    public Boolean existPatient(@RequestBody PatientBean patient);
     
 }

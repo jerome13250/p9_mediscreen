@@ -60,7 +60,7 @@ public class PatientController {
     
 	/**
 	 * endpoint that returns patient with a specified id
-	 * @param id
+	 * @param id the patient id
 	 * @return patient data
 	 * @throws PatientNotFoundException if patient id does not exist in database
 	 */
@@ -112,6 +112,7 @@ public class PatientController {
 	 * <p>
 	 * note: whatever patient id value provided, it will be set to null to create a new patient.
 	 * </p>
+	 * @param newPatient the new patient
 	 * @return created patient with id in database.
 	 * @throws PatientAlreadyExistException if patient already exists in database, based on firstname+lastname
 	 */
@@ -135,7 +136,7 @@ public class PatientController {
 
 	/**
 	 * endpoint that deletes patient with a specified id
-	 * @param id
+	 * @param id the patient id
 	 * @throws PatientNotFoundException if patient id does not exist in database
 	 */
 	@ApiOperation(value = "This endpoint deletes a patient.")
@@ -153,6 +154,7 @@ public class PatientController {
 
 	/**
 	 * endpoint that checks if a patient exists by firstname+lastname.
+	 * @param patient to check existence
 	 * @return boolean true if patient exists.
 	 */
 	@ApiOperation(value = "This endpoint checks if a patient exist by firstname and lastname.")
@@ -161,10 +163,10 @@ public class PatientController {
 			@ApiParam(
 					value = "Patient object in json format"
 					)
-			@Valid @RequestBody Patient newPatient
+			@Valid @RequestBody Patient patient
 			) {
 
-		Boolean existPatient = patientRepository.existsByFirstNameLastname(newPatient.getGiven(), newPatient.getFamily());
+		Boolean existPatient = patientRepository.existsByFirstNameLastname(patient.getGiven(), patient.getFamily());
 
 		return existPatient;
 	} 

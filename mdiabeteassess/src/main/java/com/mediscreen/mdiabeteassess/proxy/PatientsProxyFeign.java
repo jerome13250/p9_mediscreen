@@ -27,7 +27,6 @@ public interface PatientsProxyFeign{
      * 
      * @param familyname the patient family name
      * @return patient
-	 * @throws PatientNotFoundException if patient is not found
      */
     @GetMapping( value = "/patients"  )
     @ApiOperation(value = "This endpoint returns all patients if familyName is not provided,"

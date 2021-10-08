@@ -27,6 +27,7 @@ public interface PatientRepository extends JpaRepository<Patient, Integer>{
 	
 	/**
 	 * derived query that returns patients found with family name
+	 * @param family the family name
 	 * @return List of patients if found, empty list otherwise.
 	 */
 	public List<Patient> findByFamily(String family);

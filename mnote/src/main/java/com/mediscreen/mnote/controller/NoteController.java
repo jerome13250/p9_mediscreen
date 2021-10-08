@@ -45,7 +45,7 @@ public class NoteController {
 
 	/**
 	 * endpoint that returns note with a specified id
-	 * @param id
+	 * @param id the note id
 	 * @return note object
 	 * @throws NoteNotFoundException if note id does not exist in database
 	 */
@@ -66,7 +66,8 @@ public class NoteController {
 
 	/**
 	 * endpoint that updates note with a specified id
-	 * @return updated note
+	 * @param updatedNote the updated note
+	 * @return updated note result
 	 * @throws NoteNotFoundException if note id does not exist in database
 	 * @throws BadRequestException  if note id is null
 	 */
@@ -90,6 +91,7 @@ public class NoteController {
 
 	/**
 	 * endpoint that creates note.
+	 * @param newNote the note to create
 	 * @return created note with id in database.
 	 */
 	@ApiOperation(value = "This endpoint creates a note.")
@@ -108,7 +110,7 @@ public class NoteController {
 
 	/**
 	 * endpoint that deletes note with a specified id
-	 * @param id
+	 * @param id the note id
 	 * @throws NoteNotFoundException if note id does not exist in database
 	 */
 	@ApiOperation(value = "This endpoint deletes a note.")

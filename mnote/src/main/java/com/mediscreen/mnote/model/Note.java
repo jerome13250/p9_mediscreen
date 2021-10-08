@@ -35,7 +35,7 @@ public class Note {
 
 	@ApiModelProperty(
 			  value = "Doctor note for a patient",
-			  example = "1")
+			  example = "patient has terrible headache. Excessive weight.")
     @NotBlank
     private String note;
 

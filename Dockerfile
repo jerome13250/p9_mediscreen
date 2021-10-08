@@ -8,8 +8,6 @@
 ###########################
 # Alpine Linux with OpenJDK JRE
 FROM openjdk:8-jre-alpine AS mpatient
-# Install curl for healthcheck
-RUN apk --no-cache add curl
 # Add folder :
 RUN mkdir /tmp/app
 # copy JAR into image
@@ -24,8 +22,6 @@ CMD java -jar /tmp/app/mpatient-0.0.1-SNAPSHOT.jar
 ###########################
 # Alpine Linux with OpenJDK JRE
 FROM openjdk:8-jre-alpine AS mnote
-# Install curl for healthcheck
-RUN apk --no-cache add curl
 # Add folder :
 RUN mkdir /tmp/app
 # copy JAR into image
@@ -40,8 +36,6 @@ CMD java -jar /tmp/app/mnote-0.0.1-SNAPSHOT.jar
 ###############################
 # Alpine Linux with OpenJDK JRE
 FROM openjdk:8-jre-alpine AS mdiabeteassess
-# Install curl for healthcheck
-RUN apk --no-cache add curl
 # Add folder :
 RUN mkdir /tmp/app
 # copy JAR into image
@@ -56,8 +50,6 @@ CMD java -jar /tmp/app/mdiabeteassess-0.0.1-SNAPSHOT.jar
 ###########################
 # Alpine Linux with OpenJDK JRE
 FROM openjdk:8-jre-alpine AS clientui
-# Install curl for healthcheck
-RUN apk --no-cache add curl
 # Add folder :
 RUN mkdir /tmp/app
 # copy JAR into image
