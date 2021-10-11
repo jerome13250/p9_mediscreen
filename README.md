@@ -13,7 +13,7 @@ Project goals:
 * Create a microservice for NoSQL data access (module mnote using MongoDB).
 * Create a microservice for diabetes assessment (module mdiabeteassess).
 
-![UML-class-diagram](https://github.com/jerome13250/mediscreen/blob/master/images/Mediscreen_ClassDiagram.png)
+![UML-class-diagram](https://raw.githubusercontent.com/jerome13250/p9_mediscreen/master/readme_img/Mediscreen_ClassDiagram.png)
 
 ![database](https://github.com/jerome13250/paymybuddy/blob/master/images/PayMyBuddy_diagram.png)
 
