@@ -173,7 +173,7 @@ public class NoteController {
 		List<NoteCounter> listNoteCounters = result.getMappedResults();
 		
 		//convert List to HashMap:
-        Map<Integer, Integer> mapNoteCounters = new HashMap<Integer, Integer>();
+        Map<Integer, Integer> mapNoteCounters = new HashMap<>();
         for( NoteCounter noteCounter : listNoteCounters ){
         	mapNoteCounters.put( noteCounter.getPatId(), noteCounter.getCount());            
         }

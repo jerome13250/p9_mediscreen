@@ -12,6 +12,7 @@ Project goals:
 * Create a microservice for SQL data access (module mpatient using MySQL).
 * Create a microservice for NoSQL data access (module mnote using MongoDB).
 * Create a microservice for diabetes assessment (module mdiabeteassess).
+* Deploy the app in docker containers.
 
 ## Class Diagram
 ![UML-class-diagram](https://raw.githubusercontent.com/jerome13250/p9_mediscreen/master/readme_img/Mediscreen_ClassDiagram.png)
@@ -22,6 +23,7 @@ Project goals:
 ### Built With
 
 * [Java 8](https://adoptopenjdk.net/)
+* [Docker](https://docs.docker.com/)
 
 <!-- GETTING STARTED -->
 ## Getting Started
@@ -32,10 +34,16 @@ To get a local copy up and running follow these simple example steps:
 ### Prerequisites
 
 Check that you have : 
-* Java 11 installed
+* Java 8 installed
   ```sh
   java -version
   ```
+* For Windows Home Edition, use WSL2 (Windows subsystem Linux)  
+  [How to install and run Docker natively on Windows 10 Home](https://www.padok.fr/en/blog/docker-windows-10)
+
+* Docker Desktop  
+  [Install Docker Desktop on Windows](https://docs.docker.com/desktop/windows/install/)
+  
 
 ### Installation
 
@@ -45,22 +53,23 @@ Check that you have :
    ```
 2. Clone the repo
    ```sh
-   git clone https://github.com/jerome13250/paymybuddy.git
+   git clone https://github.com/jerome13250/p9_mediscreen.git
    ```
-3. Select the paymybuddy directory
+3. Select the mediscreen directory
    ```sh
-   cd paymybuddy
+   cd mediscreen
    ```
-4. Package the application (fat jar file) using [maven wrapper](https://github.com/takari/maven-wrapper) provided in the folder, it downloads automatically the correct Maven version if it's not found.
+4. Assemble executable jar archives using maven wrapper provided in the folder, it downloads automatically the correct Maven version if necessary.
    ```sh
-   mvnw package
+   mvnw clean install
    ```
-5. Execute the jar file
-   ```JS
-   java -jar ./target/paymybuddy-0.0.1-SNAPSHOT.jar
+5. Launch the docker-compose to launch the 4 components:
+   ```sh
+   docker-compose up
    ```
-6. To access the application, open your browser, go to [http://localhost:8080](http://localhost:8080)
-
-7. Note that the first time, since you start with an empty database, you need to [register](http://localhost:8080/registration) some users to be able to do some operations.
-
-![homepage](https://github.com/jerome13250/paymybuddy/blob/master/images/PayMyBuddy_homepage.png)
+6. To access the application endpoints, open your browser, go to :  
+	[Client UI](http://localhost:8080/)  
+	[PATIENT Microservice REST API Swagger](http://localhost:8081/swagger-ui/#/)  
+	[NOTE Microservice REST API](http://localhost:8082/swagger-ui/#/)  
+	[DIABETE ASSESSMENT Microservice REST API Swagger](http://localhost:8083/swagger-ui/#/)  
+	
