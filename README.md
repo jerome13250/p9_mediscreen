@@ -72,4 +72,8 @@ Check that you have :
 	[PATIENT Microservice REST API Swagger](http://localhost:8081/swagger-ui/#/)  
 	[NOTE Microservice REST API](http://localhost:8082/swagger-ui/#/)  
 	[DIABETE ASSESSMENT Microservice REST API Swagger](http://localhost:8083/swagger-ui/#/)  
-	
+7.	By default the databases are empty, if you want to test the application with data provided by openclassrooms you can use following options:
+* Option 1: Execute CURL commands for [mpatient]() and [mnote]()
+* Option 2: Import [this data]() to MySQL using a local client ( host=127.0.0.1, port=3307, login=mpatient, password=mpatient)
+	And [this data]() to MongoDB using a local client ( host=127.0.0.1, port=27018)
+
