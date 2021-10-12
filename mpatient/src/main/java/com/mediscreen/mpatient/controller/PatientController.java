@@ -166,9 +166,7 @@ public class PatientController {
 			@Valid @RequestBody Patient patient
 			) {
 
-		Boolean existPatient = patientRepository.existsByFirstNameLastname(patient.getGiven(), patient.getFamily());
-
-		return existPatient;
+		return patientRepository.existsByFirstNameLastname(patient.getGiven(), patient.getFamily());
 	} 
 	
 

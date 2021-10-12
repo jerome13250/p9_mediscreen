@@ -1,3 +1,5 @@
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=jerome13250_p9_mediscreen&metric=coverage)](https://sonarcloud.io/dashboard?id=jerome13250_p9_mediscreen)
+
 # Mediscreen
 Openclassrooms project number 9
 

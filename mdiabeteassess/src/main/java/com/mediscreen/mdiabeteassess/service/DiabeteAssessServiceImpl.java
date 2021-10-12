@@ -28,6 +28,10 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class DiabeteAssessServiceImpl implements DiabeteAssessService {
 
+	String earlyOnset = "Early onset";
+	String inDanger = "In Danger";
+	String borderLine = "Borderline";
+	String none = "None";
 
 	@Autowired
 	private PatientsProxyFeign patientProxy;
@@ -69,39 +73,39 @@ public class DiabeteAssessServiceImpl implements DiabeteAssessService {
 		if( age<30 ) {
 			if ( sex.equals("M") ) {
 				if (diabeteTriggers >= 5) {
-					diabeteAssess = "Early onset";
+					diabeteAssess = earlyOnset;
 				}
 				else if ( diabeteTriggers >= 3 ) {
-					diabeteAssess = "In Danger";
+					diabeteAssess = inDanger;
 				}
 				else {
-					diabeteAssess = "None";
+					diabeteAssess = none;
 				}
 			}
 			else { //sex=Female
 				if (diabeteTriggers >= 7) {
-					diabeteAssess = "Early onset";
+					diabeteAssess = earlyOnset;
 				}
 				else if ( diabeteTriggers >= 4 ) {
-					diabeteAssess = "In Danger";
+					diabeteAssess = inDanger;
 				}
 				else {
-					diabeteAssess = "None";
+					diabeteAssess = none;
 				}
 			}
 		}
 		else { //age>=30
 			if (diabeteTriggers >= 8) {
-				diabeteAssess = "Early onset";
+				diabeteAssess = earlyOnset;
 			}
 			else if ( diabeteTriggers >= 6 ) {
-				diabeteAssess = "In Danger";
+				diabeteAssess = inDanger;
 			}
 			else if ( diabeteTriggers >= 2 ) {
-				diabeteAssess = "Borderline";
+				diabeteAssess = borderLine;
 			}
 			else {
-				diabeteAssess = "None";
+				diabeteAssess = none;
 			}
 		}
 
