@@ -70,10 +70,9 @@ Check that you have :
 6. To access the application endpoints, open your browser, go to :  
 	[Client UI](http://localhost:8080/)  
 	[PATIENT Microservice REST API Swagger](http://localhost:8081/swagger-ui/#/)  
-	[NOTE Microservice REST API](http://localhost:8082/swagger-ui/#/)  
+	[NOTE Microservice REST API Swagger](http://localhost:8082/swagger-ui/#/)  
 	[DIABETE ASSESSMENT Microservice REST API Swagger](http://localhost:8083/swagger-ui/#/)  
 7.	By default the databases are empty, if you want to test the application with data provided by openclassrooms you can use following options:
-* Option 1: Execute CURL commands for [mpatient]() and [mnote]()
-* Option 2: Import [this data]() to MySQL using a local client ( host=127.0.0.1, port=3307, login=mpatient, password=mpatient)
-	And [this data]() to MongoDB using a local client ( host=127.0.0.1, port=27018)
+* Option 1: Execute CURL commands for [mpatient](https://github.com/jerome13250/p9_mediscreen/blob/master/mpatient/data/curl/curl_sprint1.txt) and [mnote](https://github.com/jerome13250/p9_mediscreen/blob/master/mnote/data/curl/curl_sprint2.txt)
+* Option 2: Import [this data](https://github.com/jerome13250/p9_mediscreen/blob/master/mpatient/data/sql/MySQL_mediscreen_all_sprints.sql) to MySQL using a local client ( host=127.0.0.1, port=3307, login=mpatient, password=mpatient) and [this data](https://github.com/jerome13250/p9_mediscreen/blob/master/mnote/data/js/Mongodb_data_all_sprints.js) to MongoDB using a local client ( host=127.0.0.1, port=27018)
 
