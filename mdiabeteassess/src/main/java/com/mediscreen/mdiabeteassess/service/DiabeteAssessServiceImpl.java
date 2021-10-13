@@ -61,7 +61,7 @@ public class DiabeteAssessServiceImpl implements DiabeteAssessService {
 	@Override
 	public String diabeteAssessCalculate(Integer patId) {
 
-		String diabeteAssess;
+		String diabeteAssess = null;
 
 		PatientBean patient = patientProxy.getPatient(patId);
 		List<NoteBean> listNoteBean = noteProxy.getListOfNotesByPatientId(patId);
@@ -78,9 +78,6 @@ public class DiabeteAssessServiceImpl implements DiabeteAssessService {
 				else if ( diabeteTriggers >= 3 ) {
 					diabeteAssess = inDanger;
 				}
-				else {
-					diabeteAssess = none;
-				}
 			}
 			else { //sex=Female
 				if (diabeteTriggers >= 7) {
@@ -88,9 +85,6 @@ public class DiabeteAssessServiceImpl implements DiabeteAssessService {
 				}
 				else if ( diabeteTriggers >= 4 ) {
 					diabeteAssess = inDanger;
-				}
-				else {
-					diabeteAssess = none;
 				}
 			}
 		}
@@ -104,12 +98,9 @@ public class DiabeteAssessServiceImpl implements DiabeteAssessService {
 			else if ( diabeteTriggers >= 2 ) {
 				diabeteAssess = borderLine;
 			}
-			else {
-				diabeteAssess = none;
-			}
 		}
-
-
+		//diabeteAssess was not set => assessment is none
+		diabeteAssess = (diabeteAssess != null) ? diabeteAssess : none;
 
 		return "Patient: " + patient.getGiven() + " " + patient.getFamily() +
 				" (age " + age + ") diabetes assessment is: " + diabeteAssess;
