@@ -48,8 +48,7 @@ public class PatientController {
     	
     	//familyName not provided, return all patients
     	if (familyname == null) {
-    		List<Patient> listePatient = patientRepository.findAll();
-    		return listePatient;
+    		return patientRepository.findAll();
     	}
     	else {
     		List<Patient> listePatient = patientRepository.findByFamily(familyname);

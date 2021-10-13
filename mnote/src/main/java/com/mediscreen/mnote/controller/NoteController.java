@@ -140,9 +140,7 @@ public class NoteController {
 			@PathVariable Integer patId) 
 			{
 
-		List<Note> listNotes = noteRepository.findByPatId(patId);
-		
-		return listNotes;
+		return noteRepository.findByPatId(patId);
 	}
 
 	/**

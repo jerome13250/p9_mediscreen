@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.ui.Model;
@@ -27,77 +29,48 @@ import org.springframework.ui.Model;
 class CustomErrorControllerTest {
 
 	private CustomErrorController customErrorController;
-	
+
 	@Mock
 	private HttpServletRequest mockHttpServletRequest;
 
 	@Mock
 	private Model mockModel;
-	
+
 	@BeforeEach
 	void beforeTest()
 	{
 		customErrorController = new CustomErrorController();
 	}
 
-	@Test
-	void handleError_404()
+	@ParameterizedTest(name = "Test Error page for errorCode {0}")
+	@ValueSource(ints = { 404, 403, 500, 999 })
+	void handleError(int errorCode)
 	{
 		//ARRANGE:
 		// mock the desired mockHttpServletRequest functionality.
-		doReturn(404).when(mockHttpServletRequest).getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
+		doReturn(errorCode).when(mockHttpServletRequest).getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
 
 		//ACT:
 		String viewResult = customErrorController.handleError(mockHttpServletRequest, mockModel);
-
+		
 		// Do asserts on the actualResult here.
 		assertEquals("error",viewResult);
-		verify(mockModel).addAttribute("errorMsg", "Error 404, Page not found!");
+		switch (errorCode){
+		   
+	       case 404: 
+	    	   verify(mockModel).addAttribute("errorMsg", "Error 404, Page not found!");
+	           break;
+	       case 403:
+	    	   verify(mockModel).addAttribute("errorMsg", "Error 403, Access denied!");
+	           break;
+	       case 500:
+	    	   verify(mockModel).addAttribute("errorMsg","Sorry, error 500 happened. Please contact our support!");
+	           break;
+	       default:
+	    	   verify(mockModel).addAttribute("errorMsg","Sorry an error has happened.");
+	           break;
+	   }
 	}
-	
-	@Test
-	void handleError_403()
-	{
-		//ARRANGE:
-		// mock the desired mockHttpServletRequest functionality.
-		doReturn(403).when(mockHttpServletRequest).getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
-
-		//ACT:
-		String viewResult = customErrorController.handleError(mockHttpServletRequest, mockModel);
-
-		// Do asserts on the actualResult here.
-		assertEquals("error",viewResult);
-		verify(mockModel).addAttribute("errorMsg", "Error 403, Access denied!");
-	}
-	
-	@Test
-	void handleError_500()
-	{
-		//ARRANGE:
-		// mock the desired mockHttpServletRequest functionality.
-		doReturn(500).when(mockHttpServletRequest).getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
-
-		//ACT:
-		String viewResult = customErrorController.handleError(mockHttpServletRequest, mockModel);
-
-		// Do asserts on the actualResult here.
-		assertEquals("error",viewResult);
-		verify(mockModel).addAttribute("errorMsg","Sorry, error 500 happened. Please contact our support!");
-	}
-	
-	@Test
-	void handleError_999()
-	{
-		//ARRANGE:
-		// mock the desired mockHttpServletRequest functionality.
-		doReturn(999).when(mockHttpServletRequest).getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
-
-		//ACT:
-		String viewResult = customErrorController.handleError(mockHttpServletRequest, mockModel);
-
-		// Do asserts on the actualResult here.
-		assertEquals("error",viewResult);
-		verify(mockModel).addAttribute("errorMsg","Sorry an error has happened.");
-	}
-	
 }
+
+
