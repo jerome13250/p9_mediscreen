@@ -66,7 +66,7 @@
 			<scope>test</scope>
 		</dependency>
 		
-		<!-- Common DTOs -->
+		<!-- Common DTOs and Exceptions-->
 		<dependency>
 			<groupId>com.mediscreen</groupId>
 			<artifactId>common</artifactId>

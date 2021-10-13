@@ -53,7 +53,7 @@
 			<version>3.0.0</version>
 		</dependency>
 
-		<!-- Common DTOs -->
+		<!-- Common DTOs and Exceptions-->
 		<dependency>
 			<groupId>com.mediscreen</groupId>
 			<artifactId>common</artifactId>

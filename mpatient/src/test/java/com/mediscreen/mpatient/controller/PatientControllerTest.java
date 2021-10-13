@@ -31,9 +31,9 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mediscreen.mpatient.exception.BadRequestException;
+import com.mediscreen.common.exception.BadRequestException;
+import com.mediscreen.common.exception.NotFoundException;
 import com.mediscreen.mpatient.exception.PatientAlreadyExistException;
-import com.mediscreen.mpatient.exception.PatientNotFoundException;
 import com.mediscreen.mpatient.model.Patient;
 import com.mediscreen.mpatient.repository.PatientRepository;
 
@@ -103,7 +103,7 @@ class PatientControllerTest {
 		//ACT+ASSERT
 		mockMvc.perform(get("/patients/1"))
 		.andExpect(status().isNotFound())
-		.andExpect(result -> assertTrue(result.getResolvedException() instanceof PatientNotFoundException));
+		.andExpect(result -> assertTrue(result.getResolvedException() instanceof NotFoundException));
 	}
 
 	@Test
@@ -172,7 +172,7 @@ class PatientControllerTest {
 				.contentType(MediaType.APPLICATION_JSON).content(jsonContent)
 				)
 		.andExpect(status().isNotFound())
-		.andExpect(result -> assertTrue(result.getResolvedException() instanceof PatientNotFoundException));
+		.andExpect(result -> assertTrue(result.getResolvedException() instanceof NotFoundException));
 	}
 
 	@Test
@@ -245,7 +245,7 @@ class PatientControllerTest {
 		//ACT+ASSERT
 		mockMvc.perform(delete("/patients/delete/1"))
 		.andExpect(status().isNotFound())
-		.andExpect(result -> assertTrue(result.getResolvedException() instanceof PatientNotFoundException));
+		.andExpect(result -> assertTrue(result.getResolvedException() instanceof NotFoundException));
 
 		//check patient update:
 		verify(patientRepository,never()).deleteById(1);
@@ -299,7 +299,7 @@ class PatientControllerTest {
 		//ACT+ASSERT
 		mockMvc.perform(get("/patients?familyname=doe"))
 		.andExpect(status().isNotFound())
-		.andExpect(result -> assertTrue(result.getResolvedException() instanceof PatientNotFoundException));
+		.andExpect(result -> assertTrue(result.getResolvedException() instanceof NotFoundException));
 	}
 
 	

@@ -34,8 +34,8 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mediscreen.mnote.exception.BadRequestException;
-import com.mediscreen.mnote.exception.NoteNotFoundException;
+import com.mediscreen.common.exception.BadRequestException;
+import com.mediscreen.common.exception.NotFoundException;
 import com.mediscreen.mnote.model.Note;
 import com.mediscreen.mnote.model.NoteCounter;
 import com.mediscreen.mnote.repository.NoteRepository;
@@ -106,7 +106,7 @@ class NoteControllerTest {
 		//ACT+ASSERT
 		mockMvc.perform(get("/notes/mongodb_id999"))
 		.andExpect(status().isNotFound())
-		.andExpect(result -> assertTrue(result.getResolvedException() instanceof NoteNotFoundException));
+		.andExpect(result -> assertTrue(result.getResolvedException() instanceof NotFoundException));
 	}
 
 	@Test
@@ -166,7 +166,7 @@ class NoteControllerTest {
 				.contentType(MediaType.APPLICATION_JSON).content(jsonContent)
 				)
 		.andExpect(status().isNotFound())
-		.andExpect(result -> assertTrue(result.getResolvedException() instanceof NoteNotFoundException));
+		.andExpect(result -> assertTrue(result.getResolvedException() instanceof NotFoundException));
 	}
 
 	@Test
@@ -219,7 +219,7 @@ class NoteControllerTest {
 		//ACT+ASSERT
 		mockMvc.perform(delete("/notes/delete/mongodb_id1"))
 		.andExpect(status().isNotFound())
-		.andExpect(result -> assertTrue(result.getResolvedException() instanceof NoteNotFoundException));
+		.andExpect(result -> assertTrue(result.getResolvedException() instanceof NotFoundException));
 
 		//check note update:
 		verify(noteRepository,never()).deleteById("mongodb_id1");

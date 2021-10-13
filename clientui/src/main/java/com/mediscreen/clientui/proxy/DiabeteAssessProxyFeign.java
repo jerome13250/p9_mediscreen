@@ -2,7 +2,8 @@ package com.mediscreen.clientui.proxy;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @FeignClient(name = "microservice-diabeteassess", url = "${feign.mdiabeteassess.url}")
 public interface DiabeteAssessProxyFeign{
@@ -13,7 +14,7 @@ public interface DiabeteAssessProxyFeign{
 	 * @return the assessment for diabete
 	 */
 	@PostMapping("/assess/id")
-	public String postAssessById(@RequestParam Integer patId);
+	public String postAssessById(@RequestBody Integer patId);
 	
 	/**
 	 * Assess diabete for a patient by family name.
@@ -21,6 +22,6 @@ public interface DiabeteAssessProxyFeign{
 	 * @return the assessment for diabete
 	 */
 	@PostMapping("/assess/familyName")
-	public String postPatientForm(@RequestParam String familyname);
+	public String postPatientForm(@RequestBody String familyName);
 	
 }

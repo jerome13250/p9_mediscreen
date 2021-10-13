@@ -23,6 +23,10 @@ import com.mediscreen.common.dto.PatientBean;
 @Controller
 public class ClientUIController {
 
+	String attributepatient = "patient";
+	String pagePatientForm = "patientForm";
+	String pageRedirectedPatients = "redirect:/patients/";
+	
 	@Autowired
 	private PatientsProxyFeign patientProxy;
 
@@ -63,27 +67,27 @@ public class ClientUIController {
 
 		//id is unset: create patient
 		if (id==null) {
-			model.addAttribute("patient", new PatientBean());
+			model.addAttribute(attributepatient, new PatientBean());
 		}
 		//id is set: update patient
 		else {
-			model.addAttribute("patient", patientProxy.getPatient(id));
+			model.addAttribute(attributepatient, patientProxy.getPatient(id));
 		}
-		return "patientForm";
+		return pagePatientForm;
 	}
 
 	@PostMapping("/patientForm")
 	public String postPatientForm(@Valid @ModelAttribute("patient") PatientBean patient, BindingResult bindingResult){
 
 		if (bindingResult.hasErrors()) {        	
-			return "patientForm";
+			return pagePatientForm;
 		}
 
 		//cross-record validation:
 		if (patient.getId()==null && patientProxy.existPatient(patient).equals(Boolean.TRUE)) {
 			bindingResult.rejectValue("given", "", "Utilisateur déja inscrit!");
 			bindingResult.rejectValue("family", "", "Utilisateur déja inscrit!");
-			return "patientForm";
+			return pagePatientForm;
 		}
 
 		if (patient.getId() == null) {
@@ -92,7 +96,7 @@ public class ClientUIController {
 		}
 		else {
 			patientProxy.updatePatient(patient);
-			return "redirect:/patients/"+patient.getId();
+			return pageRedirectedPatients+patient.getId();
 		}
 
 		
@@ -108,7 +112,7 @@ public class ClientUIController {
 	public String patientNotes(@PathVariable Integer id, Model model){
 
 		PatientBean patient =  patientProxy.getPatient(id);
-		model.addAttribute("patient", patient);
+		model.addAttribute(attributepatient, patient);
 
 		List<NoteBean> listNotes = noteProxy.getListOfNotesByPatientId(id);
 		model.addAttribute("listNotes", listNotes);
@@ -148,7 +152,7 @@ public class ClientUIController {
 			noteProxy.updateNote(note);
 		}
 
-		return "redirect:/patients/" + note.getPatId();
+		return pageRedirectedPatients + note.getPatId();
 	}
 
 	//Use POST since browsers do not support PUT and DELETE via form submission
@@ -168,6 +172,6 @@ public class ClientUIController {
 	public String deleteNote(@PathVariable Integer patId, @PathVariable String id){
 
 		noteProxy.deleteNote(id);
-		return "redirect:/patients/" + patId;
+		return pageRedirectedPatients + patId;
 	}
 }

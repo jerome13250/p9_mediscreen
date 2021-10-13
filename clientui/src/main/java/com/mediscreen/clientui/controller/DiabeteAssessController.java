@@ -18,9 +18,7 @@ public class DiabeteAssessController {
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public String patientdiabeteAssess(@PathVariable Integer id){
 
-		String assess = diabeteAssessProxy.postAssessById(id);
-		
-		return assess;
+		return diabeteAssessProxy.postAssessById(id);
 	}
 
 

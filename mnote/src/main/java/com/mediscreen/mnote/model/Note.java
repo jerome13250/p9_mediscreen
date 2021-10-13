@@ -37,7 +37,7 @@ public class Note {
 			  value = "Doctor note for a patient",
 			  example = "patient has terrible headache. Excessive weight.")
     @NotBlank
-    private String note;
+    private String noteText;
 
 }
 

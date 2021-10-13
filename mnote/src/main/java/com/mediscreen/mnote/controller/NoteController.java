@@ -17,11 +17,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mediscreen.mnote.exception.NoteNotFoundException;
+import com.mediscreen.common.exception.BadRequestException;
+import com.mediscreen.common.exception.NotFoundException;
 import com.mediscreen.mnote.model.Note;
 import com.mediscreen.mnote.model.NoteCounter;
 import com.mediscreen.mnote.repository.NoteRepository;
-import com.mediscreen.mnote.exception.BadRequestException;
+
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -47,7 +48,7 @@ public class NoteController {
 	 * endpoint that returns note with a specified id
 	 * @param id the note id
 	 * @return note object
-	 * @throws NoteNotFoundException if note id does not exist in database
+	 * @throws NotFoundException if note id does not exist in database
 	 */
 	@ApiOperation(value = "This endpoint returns a note from its id.")
 	@GetMapping( value = "/notes/{id}")
@@ -56,10 +57,10 @@ public class NoteController {
 					value = "Note id",
 					example = "614c63a6348c0b2d51be08dd")
 			@PathVariable String id) 
-					throws NoteNotFoundException {
+					throws NotFoundException {
 
 		Optional<Note> note = noteRepository.findById(id);
-		if(!note.isPresent())  throw new NoteNotFoundException("La note correspondant à l'id " + id + " n'existe pas");
+		if(!note.isPresent())  throw new NotFoundException("La note correspondant à l'id " + id + " n'existe pas ");
 
 		return note;
 	}
@@ -68,7 +69,7 @@ public class NoteController {
 	 * endpoint that updates note with a specified id
 	 * @param updatedNote the updated note
 	 * @return updated note result
-	 * @throws NoteNotFoundException if note id does not exist in database
+	 * @throws NotFoundException if note id does not exist in database
 	 * @throws BadRequestException  if note id is null
 	 */
 	@ApiOperation(value = "This endpoint updates a note.")
@@ -78,13 +79,13 @@ public class NoteController {
 					value = "Note object in json format"
 					)
 			@Valid @RequestBody Note updatedNote)
-					throws NoteNotFoundException, BadRequestException {
+					throws NotFoundException, BadRequestException {
 		
 		//id must be set in updatedPatient
 		if(updatedNote.getId()==null) throw new BadRequestException("Note id can not be null!");
 		
 		Optional<Note> oldNote = noteRepository.findById(updatedNote.getId());
-		if(!oldNote.isPresent())  throw new NoteNotFoundException("Modification impossible, la note correspondant à l'id " + updatedNote.getId() + " n'existe pas");
+		if(!oldNote.isPresent())  throw new NotFoundException("Modification impossible, la note correspondant à l'id " + updatedNote.getId() + " n'existe pas");
 		
 		return noteRepository.save(updatedNote);
 	}
@@ -111,18 +112,18 @@ public class NoteController {
 	/**
 	 * endpoint that deletes note with a specified id
 	 * @param id the note id
-	 * @throws NoteNotFoundException if note id does not exist in database
+	 * @throws NotFoundException if note id does not exist in database
 	 */
 	@ApiOperation(value = "This endpoint deletes a note.")
 	@DeleteMapping( value = "/notes/delete/{id}")
 	public void deleteNote(
 			@ApiParam(
 					value = "Note id",
-					example = "1")
+					example = "6152e0fb4768e6090b7856d8")
 			@PathVariable String id
-			) throws NoteNotFoundException {
+			) throws NotFoundException {
 
-		if(!noteRepository.existsById(id)) throw new NoteNotFoundException("Suppression impossible, le note correspondant à l'id " + id + " n'existe pas");
+		if(!noteRepository.existsById(id)) throw new NotFoundException("Suppression impossible, la note correspondant à l'id " + id + " n'existe pas");
 		noteRepository.deleteById(id);
 	}
 	
@@ -135,7 +136,7 @@ public class NoteController {
 	@GetMapping( value = "/patients/{patId}/notes")
 	public List<Note> getListOfNotesByPatientId(
 			@ApiParam(
-					value = "Parent id",
+					value = "Patient id",
 					example = "1")
 			@PathVariable Integer patId) 
 			{

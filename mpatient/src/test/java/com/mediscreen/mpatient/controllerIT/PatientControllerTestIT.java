@@ -29,8 +29,8 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mediscreen.common.exception.NotFoundException;
 import com.mediscreen.mpatient.exception.PatientAlreadyExistException;
-import com.mediscreen.mpatient.exception.PatientNotFoundException;
 import com.mediscreen.mpatient.model.Patient;
 import com.mediscreen.mpatient.repository.PatientRepository;
 
@@ -109,7 +109,7 @@ class PatientControllerTestIT {
 		//ACT+ASSERT
 		mockMvc.perform(get("/patients/999"))
 		.andExpect(status().isNotFound())
-		.andExpect(result -> assertTrue(result.getResolvedException() instanceof PatientNotFoundException));
+		.andExpect(result -> assertTrue(result.getResolvedException() instanceof NotFoundException));
 	}
 
 	@Test
@@ -148,7 +148,7 @@ class PatientControllerTestIT {
 				.contentType(MediaType.APPLICATION_JSON).content(jsonContent)
 				)
 		.andExpect(status().isNotFound())
-		.andExpect(result -> assertTrue(result.getResolvedException() instanceof PatientNotFoundException));
+		.andExpect(result -> assertTrue(result.getResolvedException() instanceof NotFoundException));
 	}
 
 	@Test
@@ -204,7 +204,7 @@ class PatientControllerTestIT {
 		//ACT+ASSERT
 		mockMvc.perform(delete("/patients/delete/9999999"))
 		.andExpect(status().isNotFound())
-		.andExpect(result -> assertTrue(result.getResolvedException() instanceof PatientNotFoundException));
+		.andExpect(result -> assertTrue(result.getResolvedException() instanceof NotFoundException));
 
 		//check no patient delete:
 		assertEquals(4,patientRepository.findAll().size());
