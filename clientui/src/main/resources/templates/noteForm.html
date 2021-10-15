@@ -35,10 +35,10 @@
 			<div class="form-group">
 				<label class="col-form-label">Note:</label>
 				<div>
-					<textarea th:field="*{note}" class="form-control" placeholder="Mandatory" rows=5></textarea>
+					<textarea th:field="*{noteText}" class="form-control" placeholder="Mandatory" rows=5></textarea>
 				</div>
 				<div>
-					<span class="text-danger" th:if="${#fields.hasErrors('note')}" th:errors="*{note}"></span>
+					<span class="text-danger" th:if="${#fields.hasErrors('noteText')}" th:errors="*{noteText}"></span>
 				</div>
 			</div>
 			<div class = "form-group row">

@@ -121,9 +121,9 @@ public class DiabeteAssessServiceImpl implements DiabeteAssessService {
 				Pattern.CASE_INSENSITIVE);
 
 		for (NoteBean note : listNoteBean) {
-			log.debug("note ={}",note.getNote());
+			log.debug("note ={}",note.getNoteText());
 
-			Matcher m = p.matcher(note.getNote());
+			Matcher m = p.matcher(note.getNoteText());
 			int res = 0;
 
 			// for every presence increment the counter res by 1

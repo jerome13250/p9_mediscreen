@@ -108,7 +108,7 @@
 			</thead>
 			<tbody>
 				<tr th:each="patientNote : ${listNotes}">
-					<td class="whitespaceprewrap" th:text="${patientNote.note}"></td>
+					<td class="whitespaceprewrap" th:text="${patientNote.noteText}"></td>
 					<td>
 						<form method="post" action="#"
 							th:action="@{'/patients/{patId}/notes/delete/{id}'(patId=${patientNote.patId},id=${patientNote.id})}"

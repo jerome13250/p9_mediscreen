@@ -298,7 +298,7 @@ class ClientUIControllerTest {
 		mockMvc.perform(post("/noteForm")
 				.param("id", "mongoid_1")
 				.param("patId", "1")
-				.param("note", "note1")
+				.param("noteText", "note1")
 				)
 		.andExpect(status().is3xxRedirection())
 		.andExpect(redirectedUrl("/patients/1"))
@@ -321,7 +321,7 @@ class ClientUIControllerTest {
 		//mongoid not set => note create
 		mockMvc.perform(post("/noteForm")
 				.param("patId", "1")
-				.param("note", "note1")
+				.param("noteText", "note1")
 				)
 		.andExpect(status().is3xxRedirection())
 		.andExpect(redirectedUrl("/patients/1"))

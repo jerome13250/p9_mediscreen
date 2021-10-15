@@ -22,6 +22,6 @@ public class NoteBean {
     private Integer patId;
 
     @NotBlank
-    private String note;
+    private String noteText;
 	
 }
